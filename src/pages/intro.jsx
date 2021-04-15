@@ -13,6 +13,7 @@ const IntroPage = (props) => {
   }, []);
 
   return (
+    <RecoilRoot>
     <Page>
       <Navbar className='hidden'></Navbar>
         <Toolbar bottom className="p-0" inner={false}>
@@ -41,6 +42,8 @@ const IntroPage = (props) => {
           )}
         </Swiper>
     </Page>
+    </RecoilRoot>
+
   )
 }
 export default IntroPage

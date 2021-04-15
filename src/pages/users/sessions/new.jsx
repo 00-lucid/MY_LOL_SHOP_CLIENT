@@ -4,6 +4,8 @@ import { login } from '@/common/api';
 import { toast, sleep }  from '../../../js/utils.js';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { getToken, saveToken } from '../../../common/auth';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email().required("필수 입력사항 입니다"),
@@ -12,25 +14,37 @@ const SignInSchema = Yup.object().shape({
 
 const SessionNewPage = () => {
   return (
-    <Page className="bg-white">
+    <Page style={{
+      color: "#F3EAD7",
+      backgroundColor: '#02111b'
+    }}>
       <Navbar title={i18next.t("login.title")} backLink={true} sliding={false} />
-      <p className="font-semibole text-4xl text-center mt-5">insomenia</p>
+      <p className="font-semibole text-4xl text-center mt-5">로그인</p>
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={SignInSchema}
-        onSubmit= {async (values, { setSubmitting }) => {
-          await sleep(400);
-          setSubmitting(false);
-          f7.dialog.preloader('정보를 확인중입니다');
+        onSubmit= {async values => {
+          axios.post('https://localhost:3000/signin', values)
+          .then(async(res) => {
+            if (!res.data.message) {
+              await saveToken({token: res.data.accToken, csrf: null});
+              location.replace('/');
+            } else {
+              alert('잘못된 이메일 패스워드입니다');
+            }
+          })
+          // await sleep(400);
+          // setSubmitting(false);
+          // f7.dialog.preloader('정보를 확인중입니다');
 
-          try {
-            await login({ user: values });
-            f7.dialog.close();
-            location.replace('/')
-          } catch(error) {
-            f7.dialog.close();
-            toast.get().setToastText(error?.response?.data || error?.message).openToast()
-          }
+          // try {
+          //   await login({ user: values });
+          //   f7.dialog.close();
+          //   location.replace('/')
+          // } catch(error) {
+          //   f7.dialog.close();
+          //   toast.get().setToastText(error?.response?.data || error?.message).openToast()
+          // }
         }}
         validateOnMount={true}
       >
@@ -39,6 +53,9 @@ const SessionNewPage = () => {
             <List >
               <ListInput
                 label={i18next.t('login.email')}
+                style={{
+                  backgroundColor: '#02111b',
+                }}
                 name="email"
                 type="email"
                 placeholder="이메일을 입력해주세요."
@@ -51,6 +68,9 @@ const SessionNewPage = () => {
               />
               <ListInput
                 label={i18next.t('login.password')}
+                style={{
+                  backgroundColor: '#02111b'
+                }}
                 name="password"
                 type="password"
                 placeholder="비밀번호를 입력해주세요."

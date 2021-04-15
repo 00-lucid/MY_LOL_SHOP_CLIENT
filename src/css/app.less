@@ -2,24 +2,23 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url('~dropzone/dist/dropzone.css');
+@import url("~dropzone/dist/dropzone.css");
 @import "swiper/components/pagination/pagination.less";
-@import './items.less';
+@import "./items.less";
 /* iOS Cordova Tweak */
 .device-ios {
   height: 100vh;
 }
 
-:root{
+:root {
   --f7-theme-color: #ff3b30;
   --f7-theme-color-rgb: 255, 59, 48;
   --f7-theme-color-shade: #ff1407;
   --f7-theme-color-tint: #ff6259;
-  --f7-page-bg-color: white;
+  --f7-page-bg-color: #02111b;
+  --f7-text-editor-text-color: #fff;
 }
-
-
-.device-android{
+.device-android {
   --f7-page-transition-duration: 250ms;
 }
 .device-android .page-next {
@@ -51,32 +50,33 @@
   animation: none;
 }
 
-
-
-.grid-list-item{
-  .item-link{
+.grid-list-item {
+  .item-link {
     width: 100%;
-    .item-content{
+    .item-content {
       padding: 0;
       display: inline;
     }
   }
-  .item-media{
+  .item-media {
     padding-bottom: 0;
-    & + .item-inner{
-      width: 10rem;
+    & + .item-inner {
+      width: 1rem;
       margin: auto;
       padding-right: 0 !important;
-      .item-title-row{
+      .item-title-row {
         padding: 0;
       }
-      .item-title-row::before{
+      .item-title-row::before {
         content: none;
       }
-      &::after{
+      &::after {
         content: none;
       }
     }
   }
-  
+}
+
+#file {
+  color: white;
 }
