@@ -58,6 +58,8 @@ import helper from "../pages/modules/helper";
 const BasketItem = ({ item, subTotal }) => {
   let total = 0;
 
+  const [isSave, handleIsSave] = useState(false);
+
   const handleBells = useSetRecoilState(bellState);
   const handleBellBadges = useSetRecoilState(bellBedgeState);
 
@@ -70,11 +72,8 @@ const BasketItem = ({ item, subTotal }) => {
     // LineItem table에서도 제거 되어야 함!
 
     if (!getToken().token) {
-      handleItems((old) =>
-        old.filter(
-          (el) => el.name !== item.name && el.createdAt !== item.createdAt
-        )
-      );
+      handleItems((old) => old.filter((el) => el.name !== item.name));
+      helper.saveLineItem(items.filter((el) => el.name !== item.name));
     } else {
       const { data } = axios.post(`${process.env.API_URL}/out-basket`, item, {
         headers: {
@@ -82,6 +81,7 @@ const BasketItem = ({ item, subTotal }) => {
         },
       });
       handleItems((old) => old.filter((el) => el.name !== item.name));
+      helper.saveLineItem(items.filter((el) => el.name !== item.name));
     }
   };
 

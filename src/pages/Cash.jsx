@@ -36,7 +36,6 @@ import "../css/custom.css";
 import axios from "axios";
 import { getToken } from "../common/auth";
 import { v4 as uuid4 } from "uuid";
-
 // custom component
 // TOSS API BASE URL
 // const TOSS = "https://pay.toss.im/api/v2/"
@@ -316,14 +315,29 @@ const CashPage = () => {
                         <img src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png" className="w-5 h-5 m-0.5"></img>580rp
                     </Radio> */}
           </section>
-          <Button
+          {/* <Button
+            style={{}}
             onClick={() => {
-              requestRp();
               requestTossBuy(selectRp, rpPrice);
             }}
           >
             확인
-          </Button>
+          </Button> */}
+          <button
+            className="fixed h-16 z-50 text-lg font-semibold"
+            onClick={() => requestTossBuy(selectRp, rpPrice)}
+            style={{
+              bottom: "20px",
+              width: "335px",
+              left: "16.5px",
+              borderWidth: "1px",
+              borderColor: "#C79A3A",
+              color: "#060a0f",
+              backgroundColor: "#C79A3A",
+            }}
+          >
+            충전
+          </button>
         </Block>
       </Page>
     </>

@@ -27,7 +27,7 @@ import store from "../common/store";
 import { getDevice } from "../js/framework7-custom.js";
 import routes from "../js/routes";
 import i18n from "../lang/i18n";
-
+import Discount from "../components/Discount";
 // import { io } from 'socket.io-client';
 
 // const socket = io('https://localhost:3000')
@@ -122,6 +122,7 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
           }}
           key={idx}
         >
+          {item.sale && <Discount discount={item.sale} />}
           <a
             className="w-full h-full flex flex-col items-center justify-center"
             href={`/item-info/${itemId}`}
@@ -144,21 +145,24 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
             src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
             className="w-5 h-5 m-0.5"
           ></img>
-          <p className="text-yellow-500  font-black">{item.price}</p>
+          <p className="text-yellow-500  font-bold">{item.price}</p>
         </section>
       ) : (
+        // 세일일 때는 item.sale을 이용해서 discount 값을 매겨야 한다,
         <section className="flex flex-row m-0.5">
           <img
             src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
             className="w-5 h-5 m-0.5"
           ></img>
           <p
-            className="text-yellow-500  font-black mr-2 opacity-30"
+            className="text-yellow-500  font-bold mr-2 opacity-30"
             style={{ color: "#bbbbbb" }}
           >
             <del>{item.price}</del>
           </p>
-          <p className="text-yellow-500  font-black">{item.price - 10}</p>
+          <p className="text-yellow-500  font-bold">
+            {item.price - item.price * (Number(item.sale) * 0.01)}
+          </p>
         </section>
       )}
 

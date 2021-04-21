@@ -92,7 +92,7 @@ const SortCategoryPage = () => {
         </Navbar>
 
         <Block className="h-full">
-          <section className="flex flex-row items-center mt-3">
+          <section className="flex flex-row items-center mt-3 mb-3">
             <p className="text-lg ml-3">{category}</p>
             <button className="w-7" onClick={() => handleIs4(false)}>
               <Icon

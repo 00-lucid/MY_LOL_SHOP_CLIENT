@@ -52,6 +52,7 @@ import {
 import "../css/custom.css";
 import MyCard from "../components/MyCard";
 import CategoryBox from "../components/CategoryBox";
+import helper from "./modules/helper";
 
 const HomePage = () => {
   let loggedIn = !!getToken().token;
@@ -163,7 +164,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <Page name="home">
+    <Page name="home" hideNavbarOnScroll>
       {alarms.map((alarm, idx) => (
         <div key={idx} className="alarm">
           {alarm.text}
@@ -185,6 +186,7 @@ const HomePage = () => {
               tooltip="로그아웃"
               onClick={() => {
                 destroyToken();
+                helper.destroyLineItem();
                 location.replace("/");
               }}
             />

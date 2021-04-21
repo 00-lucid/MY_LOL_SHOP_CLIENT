@@ -54,7 +54,7 @@ import {
 } from "../recoil/state";
 import axios from "axios";
 
-const ContactItem = ({ contact, select }) => {
+const ContactItem = ({ contact, select, idx }) => {
   const [selectContacts, handleSelectContacts] = useRecoilState(
     selectContactsState
   );
@@ -74,6 +74,7 @@ const ContactItem = ({ contact, select }) => {
     <>
       {select && (
         <section
+          key={idx}
           className="flex flex-col justify-center"
           style={{
             backgroundColor: "#02111b",
@@ -116,6 +117,7 @@ const ContactItem = ({ contact, select }) => {
       )}
       {!select && (
         <section
+          key={idx}
           className="flex flex-col justify-center p-3"
           style={{
             backgroundColor: "#02111b",

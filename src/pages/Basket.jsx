@@ -51,10 +51,17 @@ const BasketPage = () => {
   const [isAction, handleIsAction] = useRecoilState(isActionState);
 
   const buyBasket = async () => {
+    if (!getToken().token) {
+      helper.showToastCenter("로그인이 필요합니다");
+
+      return;
+    }
+
     if (total === 0) {
       helper.showToastCenter("장바구니가 비어있습니다");
       return;
     }
+
     const { data } = await axios.post(
       `${process.env.API_URL}/order`,
       {
@@ -75,6 +82,8 @@ const BasketPage = () => {
     // await f7.dialog.preloader("구매를 진행중입니다...", 3000);
 
     handleItems([]);
+
+    helper.saveLineItem([]);
 
     handleAlarms((old) => [...old, { text: "구매 성공!" }]);
 
@@ -123,11 +132,11 @@ const BasketPage = () => {
   //   console.log(data);
   // };
 
-  useEffect(() => {
-    // 안됨 왜??
-    console.log("change");
-    helper.saveLineItem(items);
-  }, [items]);
+  // useEffect(() => {
+  //   // 안됨 왜??
+  //   console.log("change");
+  //   helper.saveLineItem(items);
+  // }, [items]);
 
   return (
     <Page name="basket p-0">
@@ -141,40 +150,60 @@ const BasketPage = () => {
       ))}
       <List className="p-0">
         <ul>
-          {items.map((item, idx) => {
-            console.log(item);
-            const subTotal =
-              (Number(item.price) +
-                (item.optionBox === "default"
-                  ? 0
-                  : Number(item.optionBox.split(" ")[1]))) *
-              Number(item.countBox);
-            total +=
-              (Number(item.price) +
-                (item.optionBox === "default"
-                  ? 0
-                  : Number(item.optionBox.split(" ")[1]))) *
-              Number(item.countBox);
+          {items &&
+            items.length > 0 &&
+            items.map((item, idx) => {
+              console.log(item);
+              const subTotal =
+                (Number(item.price) +
+                  (item.optionBox === "default"
+                    ? 0
+                    : Number(item.optionBox.split(" ")[1]))) *
+                Number(item.countBox);
+              total +=
+                (Number(item.price) +
+                  (item.optionBox === "default"
+                    ? 0
+                    : Number(item.optionBox.split(" ")[1]))) *
+                Number(item.countBox);
 
-            return <BasketItem item={item} subTotal={subTotal} />;
-          })}
+              return <BasketItem item={item} subTotal={subTotal} />;
+            })}
         </ul>
       </List>
       <div className="flex text-xl font-black items-center justify-center rounded-md overflow-hidden">
-        <button
-          className="fixed h-16 z-50 text-lg font-semibold flex flex-row items-center justify-center"
-          onClick={buyBasket}
-          style={{
-            bottom: "60px",
-            width: "335px",
-            borderWidth: "1px",
-            borderColor: "#C79A3A",
-            color: "#060a0f",
-            backgroundColor: "#C79A3A",
-          }}
-        >
-          {`${total} RP`}
-        </button>
+        {getToken().token ? (
+          <button
+            className="fixed h-16 z-50 text-lg font-semibold flex flex-row items-center justify-center"
+            onClick={buyBasket}
+            style={{
+              bottom: "60px",
+              width: "335px",
+              borderWidth: "1px",
+              borderColor: "#C79A3A",
+              color: "#060a0f",
+              backgroundColor: "#C79A3A",
+            }}
+          >
+            {`${total} RP`}
+          </button>
+        ) : (
+          <Link
+            href="/users/sign_in"
+            className="fixed h-16 z-50 text-lg font-semibold flex flex-row items-center justify-center"
+            style={{
+              bottom: "60px",
+              width: "335px",
+              borderWidth: "1px",
+              borderColor: "#C79A3A",
+              color: "#060a0f",
+              backgroundColor: "#C79A3A",
+            }}
+            onClick={buyBasket}
+          >
+            {`${total} RP`}
+          </Link>
+        )}
       </div>
     </Page>
   );

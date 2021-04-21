@@ -81,4 +81,8 @@ export default {
   getLineItem() {
     return JSON.parse(localStorage.getItem("lineItem"));
   },
+
+  destroyLineItem() {
+    localStorage.removeItem("lineItem");
+  },
 };

@@ -18,6 +18,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/state.js";
 import { getToken, saveToken } from "../../../common/auth";
 import "../../../css/app.less";
+import { useCookies } from "react-cookie";
 
 // Yup는 쉽게 validation check를 하게 도와준다
 const SignUpSchema = Yup.object().shape({
@@ -37,6 +38,7 @@ const SignUpPage = () => {
 
   return (
     <Page
+      noToolbar
       style={{
         color: "#F3EAD7",
         backgroundColor: "#02111b",
@@ -63,16 +65,6 @@ const SignUpPage = () => {
           f7.dialog.preloader("잠시만 기다려주세요...");
           await sleep(400);
           location.replace("/");
-
-          // console.log(setSubmitting);
-          // setSubmitting(false);
-          // try {
-          //   (await signup({ user: values })).data;
-          //   toast.get().setToastText('로그인 되었습니다.').openToast();
-          // } catch(error) {
-          //   f7.dialog.close();
-          //   toast.get().setToastText(error?.response?.data || error?.message).openToast();
-          // }
         }}
         validateOnMount={true}
       >

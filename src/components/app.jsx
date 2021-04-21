@@ -20,7 +20,7 @@ import {
 import "lodash";
 import React, { useEffect } from "react";
 import { logout } from "../common/api";
-import { destroyToken, getToken } from "../common/auth";
+import { destroyToken, getToken, saveToken } from "../common/auth";
 import store from "../common/store";
 import { getDevice } from "../js/framework7-custom.js";
 import routes from "../js/routes";
@@ -50,6 +50,7 @@ import axios from "axios";
 import MessageCircle from "./message";
 import { data } from "dom7";
 import helper from "../pages/modules/helper";
+import { useCookies } from "react-cookie";
 
 global.i18next = i18n;
 
@@ -65,13 +66,59 @@ const MyApp = ({ socket }) => {
   const [userInfo, handleUserInfo] = useRecoilState(userInfoState);
   const [statistic, handleStatistic] = useRecoilState(statisticState);
 
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "rememberEmail",
+    "rememberPassword",
+  ]);
+
+  const autoLogin = async () => {
+    // 둘다 있으면 자동로그인 시켜줌
+    if (cookies.rememberEmail && cookies.rememberPassword) {
+      console.log("자동로그인");
+      console.log(cookies.rememberEmail);
+      console.log(cookies.rememberPassword);
+      const { data } = await axios.post(`${process.env.API_URL}/signin`, {
+        email: cookies.rememberEmail,
+        password: cookies.rememberPassword,
+      });
+      saveToken({ token: data.accToken, csrf: null });
+    }
+  };
+
   useEffect(() => {
     console.log("load");
-    // localStorage.clear();
-    const data = helper.getLineItem();
 
+    if (!loggedIn) {
+      autoLogin();
+    }
+    const data = helper.getLineItem();
     handleItems(data);
   }, []);
+
+  useEffect(() => {
+    // localStorage.clear();
+    // const data = helper.getLineItem();
+
+    // handleItems(data);
+    if (loggedIn) {
+      items.forEach(async (item) => {
+        await axios.post(
+          `${process.env.API_URL}/add-line-item`,
+          {
+            name: item.name,
+            img: item.img,
+            // lineTotal: subTotal,
+            // buyOption: arrVal[0],
+            // buyCount: arrVal[1],
+            itemId: item.id,
+          },
+          {
+            headers: { authorization: `Bearer ${getToken().token}` },
+          }
+        );
+      });
+    }
+  }, [loggedIn]);
 
   // Login screen demo data
   let loggedIn = !!getToken().token;
@@ -194,7 +241,7 @@ const MyApp = ({ socket }) => {
             tabLink="#view-carts"
             icon="las la-shopping-cart"
             badgeColor="red"
-            iconBadge={items.length > 0 ? items.length : null}
+            iconBadge={items && items.length > 0 ? items.length : null}
             text="장바구니"
             onClick={() => helper.saveLineItem(items)}
           ></Link>

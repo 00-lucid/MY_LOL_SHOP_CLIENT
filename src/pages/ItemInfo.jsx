@@ -84,22 +84,26 @@ const ItemInfo = ({ id }) => {
     // option과 count 정보를 가져와서 같이 basketState에 넣어줘야 함
     // 그리고 Basket.jsx에서 해당 정보들을 랜더링 해줘야 됨
     // 만약 이미 장바구니에 아이탬이 있을 경우 있다고 알려줘야 함
-
     // Line
-    if (items.filter((el) => el.name === item.name).length >= 1) {
+    if (
+      items &&
+      items.length > 0 &&
+      items.filter((el) => el.name === item.name).length >= 1
+    ) {
       // alert("이미 장바구니에 있습니다");
       helper.showToastCenter("이미 장바구니에 있습니다");
       return;
     }
-
     const arrVal = await getSelectValue();
-
     if (!getToken().token) {
-      handleItems((oldItems) => [
-        ...oldItems,
-        { ...item, optionBox: arrVal[0], countBox: arrVal[1] },
-      ]);
-
+      if (items && items.length > 0) {
+        handleItems((oldItems) => [
+          ...oldItems,
+          { ...item, optionBox: arrVal[0], countBox: arrVal[1] },
+        ]);
+      } else {
+        handleItems([{ ...item, optionBox: arrVal[0], countBox: arrVal[1] }]);
+      }
       helper.helpAddAlarm("장바구니에 추가 되었습니다!", handleAlarms);
     } else {
       const subTotal =
@@ -108,7 +112,6 @@ const ItemInfo = ({ id }) => {
             ? 0
             : Number(getSelectValue()[0].split(" ")[1]))) *
         Number(arrVal[1]);
-
       await axios.post(`${process.env.API_URL}/add-line-item`, {
         name: item.name,
         img: item.img,
@@ -117,22 +120,34 @@ const ItemInfo = ({ id }) => {
         buyCount: arrVal[1],
         itemId: item.id,
       });
-
-      handleItems((old) => [
-        ...old,
-        { ...item, optionBox: arrVal[0], countBox: arrVal[1] },
-      ]);
-
+      if (items && items.length > 0) {
+        handleItems((oldItems) => [
+          ...oldItems,
+          { ...item, optionBox: arrVal[0], countBox: arrVal[1] },
+        ]);
+      } else {
+        handleItems([{ ...item, optionBox: arrVal[0], countBox: arrVal[1] }]);
+      }
       helper.helpAddAlarm("장바구니에 추가 되었습니다!", handleAlarms);
     }
+
+    console.log(3);
   };
-  const addDib = () => {
+  const addDib = async () => {
     if (getToken().token) {
-      axios.post(
+      await axios.post(
         `${process.env.API_URL}/add-dib`,
         { id: curItemInfo.id },
         { headers: { authorization: `Bearer ${getToken().token}` } }
       );
+      handleOnDib((old) => {
+        old
+          ? helper.showToastIcon("찜 목록에 제거되었습니다", false)
+          : helper.showToastIcon("찜 목록에 추가되었습니다", true);
+        return !old;
+      });
+    } else {
+      helper.showToastCenter("로그인이 필요합니다");
     }
   };
 
@@ -143,9 +158,8 @@ const ItemInfo = ({ id }) => {
         (arrVal[0] === "default"
           ? 0
           : Number(getSelectValue()[0].split(" ")[1])))) * Number(arrVal[1]);
-
     if (getToken().token) {
-      await axios.post(
+      const { data } = await axios.post(
         `${process.env.API_URL}/order-now`,
         {
           name: item.name,
@@ -160,8 +174,13 @@ const ItemInfo = ({ id }) => {
           headers: { authorization: `Bearer ${getToken().token}` },
         }
       );
-
+      if (data === "잔액이 부족합니다") {
+        helper.showToastCenter("RP가 부족합니다");
+        return;
+      }
       helper.helpAddAlarm("구매 성공!", handleAlarms);
+    } else {
+      helper.showToastCenter("로그인이 필요합니다");
     }
   };
 
@@ -201,25 +220,38 @@ const ItemInfo = ({ id }) => {
               >
                 {curItemInfo.name}
               </div>
-              <Button
-                className="absolute right-3"
-                outlin
-                onClick={() => {
-                  addDib();
-                  handleOnDib((old) => {
-                    old
-                      ? helper.showToastIcon("찜 목록에 제거되었습니다", false)
-                      : helper.showToastIcon("찜 목록에 추가되었습니다", true);
-                    return !old;
-                  });
-                }}
-              >
-                {curItemInfo.dib || onDib ? (
-                  <Icon ios="f7:heart_fill" aurora="f7:heart"></Icon>
-                ) : (
-                  <Icon ios="f7:heart" aurora="f7:heart"></Icon>
-                )}
-              </Button>
+              {getToken().token && (
+                <Button
+                  className="absolute right-3"
+                  outlin
+                  onClick={() => {
+                    addDib();
+                  }}
+                >
+                  {curItemInfo.dib || onDib ? (
+                    <Icon ios="f7:heart_fill" aurora="f7:heart"></Icon>
+                  ) : (
+                    <Icon ios="f7:heart" aurora="f7:heart"></Icon>
+                  )}
+                </Button>
+              )}
+
+              {!getToken().token && (
+                <Button
+                  className="absolute right-3"
+                  href="/users/sign_in"
+                  outlin
+                  onClick={() => {
+                    addDib();
+                  }}
+                >
+                  {curItemInfo.dib || onDib ? (
+                    <Icon ios="f7:heart_fill" aurora="f7:heart"></Icon>
+                  ) : (
+                    <Icon ios="f7:heart" aurora="f7:heart"></Icon>
+                  )}
+                </Button>
+              )}
             </section>
 
             <PriceBox curItemInfo={curItemInfo} />
@@ -271,21 +303,42 @@ const ItemInfo = ({ id }) => {
                 장바구니
               </button>
 
-              <button
-                className="fixed h-16 z-50 text-lg font-semibold"
-                onClick={() => buyItem(curItemInfo)}
-                style={{
-                  bottom: "20px",
-                  width: "335px",
-                  left: "16.5px",
-                  borderWidth: "1px",
-                  borderColor: "#C79A3A",
-                  color: "#060a0f",
-                  backgroundColor: "#C79A3A",
-                }}
-              >
-                바로구매
-              </button>
+              {getToken().token && (
+                <button
+                  className="fixed h-16 z-50 text-lg font-semibold"
+                  onClick={() => buyItem(curItemInfo)}
+                  style={{
+                    bottom: "20px",
+                    width: "335px",
+                    left: "16.5px",
+                    borderWidth: "1px",
+                    borderColor: "#C79A3A",
+                    color: "#060a0f",
+                    backgroundColor: "#C79A3A",
+                  }}
+                >
+                  바로구매
+                </button>
+              )}
+
+              {!getToken().token && (
+                <Link
+                  className="fixed h-16 z-50 text-lg font-semibold"
+                  href="/users/sign_in"
+                  onClick={buyItem}
+                  style={{
+                    bottom: "20px",
+                    width: "335px",
+                    left: "16.5px",
+                    borderWidth: "1px",
+                    borderColor: "#C79A3A",
+                    color: "#060a0f",
+                    backgroundColor: "#C79A3A",
+                  }}
+                >
+                  바로구매
+                </Link>
+              )}
             </section>
           </Block>
         </Block>
@@ -299,6 +352,7 @@ const ItemInfo = ({ id }) => {
             {relationItems.length > 0
               ? relationItems.map((item) => (
                   <MyCard
+                    key={item.id}
                     idx={item.id}
                     img={item.img}
                     name={item.name}

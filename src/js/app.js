@@ -28,6 +28,10 @@ Framework7.use(Framework7React);
 
 import { RecoilRoot } from "recoil";
 
+// window.addEventListener("beforeunload", () => {
+//   alert("정말 창을 닫으시겠습니까?");
+// });
+
 // Mount React App
 ReactDOM.render(
   <RecoilRoot>

@@ -64,12 +64,24 @@ const ContactsPage = () => {
         <ul className="">
           {contacts.length > 0 && isContact && !isPopWrite
             ? contacts.map((contact, idx) => {
-                return <ContactItem contact={contact} select={false} />;
+                return (
+                  <ContactItem
+                    idx={contact.id}
+                    contact={contact}
+                    select={false}
+                  />
+                );
               })
             : !isPopWrite
             ? contacts.map((contact, idx) => {
                 console.log(contact);
-                return <ContactItem contact={contact} select={true} />;
+                return (
+                  <ContactItem
+                    idx={contact.id}
+                    contact={contact}
+                    select={true}
+                  />
+                );
               })
             : null}
         </ul>
