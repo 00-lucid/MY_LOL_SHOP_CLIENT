@@ -105,6 +105,9 @@ const MyPage = () => {
                 <Button
                   fill
                   className="mt-3 w-32"
+                  style={{
+                    background: "#e63946",
+                  }}
                   onClick={() => {
                     axios
                       .post(

@@ -107,27 +107,27 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
   };
 
   return (
-    <section key={idx} className="flex flex-col">
+    <section key={item.id} className="flex flex-col">
       <section className="flex flex-col items-center justify-center">
         <Card
           id="home-card"
           className="items-stretch flex-initial flex-none w-44 h-44 border m-1"
           style={{
-            backgroundImage: "url(" + img + ")",
+            backgroundImage: "url(" + item.img + ")",
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             color: "#F3EAD7",
             borderColor: "#C79A3A",
           }}
-          key={idx}
+          key={item.id}
         >
           {item.sale && <Discount discount={item.sale} />}
           <a
             className="w-full h-full flex flex-col items-center justify-center"
-            href={`/item-info/${itemId}`}
+            href={`/item-info/${item.id}`}
             onClick={() => {
-              requestCurItemInfo(itemId);
+              requestCurItemInfo(item.id);
               handleRecentItem((old) => {
                 const result = old.filter((el) => el.name !== item.name);
                 return [item, ...result];
@@ -137,7 +137,7 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
         </Card>
       </section>
       <p className="text-lg m-0.5" style={{ color: "#F3EAD7" }}>
-        {name}
+        {item.name}
       </p>
       {item.status === "on" ? (
         <section className="flex flex-row m-0.5">

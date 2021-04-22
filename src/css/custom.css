@@ -140,7 +140,8 @@
   bottom: -1px;
   width: 100vh;
   height: 180px;
-  background: linear-gradient(rgba(0, 0, 0, 0), black);
+  background: #02111b;
+  border-top: 2px solid rgb(108, 213, 255);
 }
 
 #discount {

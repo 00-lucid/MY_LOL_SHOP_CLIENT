@@ -34,6 +34,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { getToken } from "../common/auth";
+import helper from "./modules/helper";
 
 // custom component
 const SignInSchema = Yup.object().shape({
@@ -47,12 +48,13 @@ const ConfigPwPage = () => {
   return (
     <>
       <Page
+        noToolbar
         style={{
           color: "#F3EAD7",
         }}
       >
         <Navbar sliding={false} backLink>
-          <NavTitle title="비밀번호 수정"></NavTitle>
+          <NavTitle title="비밀번호 변경"></NavTitle>
         </Navbar>
 
         <Formik
@@ -71,6 +73,8 @@ const ConfigPwPage = () => {
               );
 
               location.replace("/");
+            } else {
+              helper.showToastCenter("비밀번호가 이전과 같습니다");
             }
           }}
           validateOnMount={true}
@@ -121,6 +125,9 @@ const ConfigPwPage = () => {
               <div className="p-1">
                 <button
                   type="submit"
+                  style={{
+                    background: "#e63946",
+                  }}
                   className="button button-fill button-large disabled:opacity-50"
                   disabled={isSubmitting || !isValid}
                 >

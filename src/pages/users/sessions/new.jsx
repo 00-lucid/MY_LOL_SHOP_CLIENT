@@ -74,7 +74,7 @@ const SessionNewPage = () => {
         backLink={true}
         sliding={false}
       />
-      <p className="font-semibole text-4xl text-center mt-5">로그인</p>
+      {/* <p className="font-semibole text-4xl text-center mt-5">로그인</p> */}
       <Formik
         initialValues={{
           email: cookies.rememberEmail ? cookies.rememberEmail : "",
@@ -114,7 +114,9 @@ const SessionNewPage = () => {
           localStorage.setItem("autoLogin", `${isAutoLogin}`);
 
           f7.dialog.preloader("정보를 확인중입니다...");
-          location.replace("/");
+          setTimeout(() => {
+            location.replace("/");
+          }, 700);
 
           // try {
           //   await login({ user: values });
@@ -212,9 +214,9 @@ const SessionNewPage = () => {
             </List>
             <div className="p-1">
               <button
-                type="submit"
-                className="button button-fill button-large disabled:opacity-50"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 disabled={isSubmitting || !isValid}
+                type="submit"
               >
                 로그인
               </button>

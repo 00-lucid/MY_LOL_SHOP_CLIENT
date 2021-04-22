@@ -69,12 +69,14 @@ const PriceBox = ({ curItemInfo }) => {
             className="w-5 h-5 m-0.5"
           ></img>
           <p
-            className="text-yellow-500  font-black mr-2 opacity-30"
+            className="text-yellow-500  font-bold mr-2 opacity-30"
             style={{ color: "#bbbbbb" }}
           >
             <del>{curItemInfo.price}</del>
           </p>
-          <p className="text-yellow-500 font-bold">{curItemInfo.price - 10}</p>
+          <p className="text-yellow-500 font-bold">
+            {curItemInfo.price - curItemInfo.price * (curItemInfo.sale * 0.01)}
+          </p>
         </section>
       )}
     </>

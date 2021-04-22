@@ -69,7 +69,7 @@ const DeleteItemPage = () => {
       {/* color: "#F3EAD7", */}
       {/* borderColor: "#C79A3A", */}
       {/* backgroundColor: '#02111b' */}
-      <Page name="write">
+      <Page name="write" noToolbar>
         <Navbar sliding={false} backLink>
           <NavLeft>
             <Link icon="las la-bars" panelOpen="left" />
@@ -102,6 +102,9 @@ const DeleteItemPage = () => {
                     <Button
                       className="z-50"
                       fill
+                      style={{
+                        background: "#e63946",
+                      }}
                       onClick={() => {
                         console.log(item.id);
                         deleteItem(item.id);

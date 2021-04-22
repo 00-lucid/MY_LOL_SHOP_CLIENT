@@ -13,6 +13,9 @@ import {
   relationItemState,
   tagState,
   recentItemState,
+  bellBedgeState,
+  bellState,
+  isActionState,
 } from "../recoil/state";
 import {
   Block,
@@ -45,11 +48,15 @@ const ItemInfo = ({ id }) => {
   const tags = useRecoilValue(tagState);
   const reviews = useRecoilValue(reviewState);
   const recentItems = useRecoilValue(recentItemState);
-  const curItemInfo = useRecoilValue(curItemInfoState);
+  // const curItemInfo = useRecoilValue(curItemInfoState);
 
   const handleReview = useSetRecoilState(reviewState);
-  const handleCurItemInfo = useSetRecoilState(curItemInfoState);
+  const handleBellBadges = useSetRecoilState(bellBedgeState);
+  const handleBells = useSetRecoilState(bellState);
+  const handleIsAction = useSetRecoilState(isActionState);
+  // const handleCurItemInfo = useSetRecoilState(curItemInfoState);
 
+  const [info, handleInfo] = useState({});
   const [onDib, handleOnDib] = useState(false);
   // const [isScroll, handleIsScroll] = useState(true);
   const [items, handleItems] = useRecoilState(basketState);
@@ -66,19 +73,52 @@ const ItemInfo = ({ id }) => {
     return [optionBox.value, countBox.value];
   };
 
-  const requestCurItemInfo = async (itemId) => {
-    // 카드의 id를 이용해서 알맞는 아이탬 내용을 가져와 state에 저장해야 합니다.
-    // 해당 state는 ItemInfo page 랜더에 활용됩니다.
-    const { data } = await axios.post(`${process.env.API_URL}/get-item-info`, {
-      id: itemId,
-    });
+  // const requestCurItemInfo = async (itemId) => {
+  //   // 카드의 id를 이용해서 알맞는 아이탬 내용을 가져와 state에 저장해야 합니다.
+  //   // 해당 state는 ItemInfo page 랜더에 활용됩니다.
+  //   const { data } = await axios.post(`${process.env.API_URL}/get-item-info`, {
+  //     id: itemId,
+  //   });
 
-    handleReview(data.reviews);
+  //   handleReview(data.reviews);
 
-    handleCurItemInfo(data);
+  //   handleCurItemInfo(data);
 
-    handleRelationItemState(data.relationItems);
-  };
+  //   handleRelationItemState(data.relationItems);
+  // };
+
+  useEffect(async () => {
+    // back 버튼을 누를 때 state를 변경 시켜서 url item을 가져올 수 있도록 해야한다
+    // url itemId에 따라 서버에서 아이탬 정보를 가져와서 랜더해야한다.
+    const url = location.href.split("/");
+    const itemId = url[url.length - 1];
+
+    console.log(itemId);
+    if (!getToken().token) {
+      const { data } = await axios.post(
+        `${process.env.API_URL}/get-item-info`,
+        {
+          id: itemId,
+        }
+      );
+      console.log(data);
+      handleInfo(data);
+    } else {
+      const { data } = await axios.post(
+        `${process.env.API_URL}/get-item-info`,
+        {
+          id: itemId,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${getToken().token}`,
+          },
+        }
+      );
+
+      handleInfo(data);
+    }
+  }, []);
 
   const addItem = async (item) => {
     // option과 count 정보를 가져와서 같이 basketState에 넣어줘야 함
@@ -137,7 +177,7 @@ const ItemInfo = ({ id }) => {
     if (getToken().token) {
       await axios.post(
         `${process.env.API_URL}/add-dib`,
-        { id: curItemInfo.id },
+        { id: info.id },
         { headers: { authorization: `Bearer ${getToken().token}` } }
       );
       handleOnDib((old) => {
@@ -178,6 +218,15 @@ const ItemInfo = ({ id }) => {
         helper.showToastCenter("RP가 부족합니다");
         return;
       }
+      // postBell(token, text, handleBellBadges, handleBells, handleIsAction) {
+
+      helper.postBell(
+        getToken().token,
+        `${info.name} 상품을 구매 하셨습니다`,
+        handleBellBadges,
+        handleBells,
+        handleIsAction
+      );
       helper.helpAddAlarm("구매 성공!", handleAlarms);
     } else {
       helper.showToastCenter("로그인이 필요합니다");
@@ -202,7 +251,7 @@ const ItemInfo = ({ id }) => {
           <Block
             className="item-info-img"
             style={{
-              backgroundImage: "url(" + curItemInfo.img + ")",
+              backgroundImage: "url(" + info.img + ")",
               backgroundPosition: "center",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
@@ -218,17 +267,20 @@ const ItemInfo = ({ id }) => {
                   fontSize: "1.2rem",
                 }}
               >
-                {curItemInfo.name}
+                {info.name}
               </div>
               {getToken().token && (
                 <Button
                   className="absolute right-3"
+                  style={{
+                    color: "red",
+                  }}
                   outlin
                   onClick={() => {
                     addDib();
                   }}
                 >
-                  {curItemInfo.dib || onDib ? (
+                  {info.dib || onDib ? (
                     <Icon ios="f7:heart_fill" aurora="f7:heart"></Icon>
                   ) : (
                     <Icon ios="f7:heart" aurora="f7:heart"></Icon>
@@ -245,7 +297,7 @@ const ItemInfo = ({ id }) => {
                     addDib();
                   }}
                 >
-                  {curItemInfo.dib || onDib ? (
+                  {info.dib || onDib ? (
                     <Icon ios="f7:heart_fill" aurora="f7:heart"></Icon>
                   ) : (
                     <Icon ios="f7:heart" aurora="f7:heart"></Icon>
@@ -254,19 +306,20 @@ const ItemInfo = ({ id }) => {
               )}
             </section>
 
-            <PriceBox curItemInfo={curItemInfo} />
+            <PriceBox curItemInfo={info} />
 
             <div className="info-option">
               <select id="option-box" name="option-box">
                 <option value="default">default</option>
-                {curItemInfo.arrOption.map((option) => {
-                  return (
-                    <option
-                      key={option.id}
-                      value={`${option.option} +${option.optionPrice} 원`}
-                    >{`${option.option} +${option.optionPrice} 원`}</option>
-                  );
-                })}
+                {info.arrOption &&
+                  info.arrOption.map((option) => {
+                    return (
+                      <option
+                        key={option.id}
+                        value={`${option.option} +${option.optionPrice} 원`}
+                      >{`${option.option} +${option.optionPrice} 원`}</option>
+                    );
+                  })}
                 {/* <option value="red">red</option> */}
               </select>
             </div>
@@ -288,7 +341,7 @@ const ItemInfo = ({ id }) => {
               <button
                 className="fixed h-16 z-50 text-lg font-semibold"
                 onClick={() => {
-                  addItem(curItemInfo);
+                  addItem(info);
                 }}
                 style={{
                   bottom: "84px",
@@ -306,7 +359,7 @@ const ItemInfo = ({ id }) => {
               {getToken().token && (
                 <button
                   className="fixed h-16 z-50 text-lg font-semibold"
-                  onClick={() => buyItem(curItemInfo)}
+                  onClick={() => buyItem(info)}
                   style={{
                     bottom: "20px",
                     width: "335px",
@@ -351,14 +404,7 @@ const ItemInfo = ({ id }) => {
           <List className="overflow-scroll flex flex-row">
             {relationItems.length > 0
               ? relationItems.map((item) => (
-                  <MyCard
-                    key={item.id}
-                    idx={item.id}
-                    img={item.img}
-                    name={item.name}
-                    itemId={item.id}
-                    item={item}
-                  />
+                  <MyCard key={item.id} item={item} />
                 ))
               : "loading..."}
           </List>
@@ -376,15 +422,7 @@ const ItemInfo = ({ id }) => {
             }}
           >
             {recentItems.length > 0
-              ? recentItems.map((item) => (
-                  <MyCard
-                    idx={item.id}
-                    img={item.img}
-                    name={item.name}
-                    itemId={item.id}
-                    item={item}
-                  />
-                ))
+              ? recentItems.map((item) => <MyCard key={item.id} item={item} />)
               : "최근 본 아이탬이 없습니다"}
           </List>
         </Block>
@@ -394,10 +432,10 @@ const ItemInfo = ({ id }) => {
             <p className="text-xl" style={{ color: "#F3EAD7" }}>
               댓글
             </p>
-            {curItemInfo.rate >= 3.5 ? (
-              <ReviewTitle reviews={reviews} curItemInfo={curItemInfo} />
+            {info.rate >= 3.5 ? (
+              <ReviewTitle reviews={reviews} curItemInfo={info} />
             ) : (
-              <ReviewTitle reviews={reviews} curItemInfo={curItemInfo} />
+              <ReviewTitle reviews={reviews} curItemInfo={info} />
             )}
           </section>
           <List className="overflow-scroll h-44">

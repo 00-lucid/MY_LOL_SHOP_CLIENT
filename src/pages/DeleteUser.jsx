@@ -34,6 +34,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { destroyToken, getToken } from "../common/auth";
+import helper from "./modules/helper";
 
 // custom component
 
@@ -48,6 +49,7 @@ const DeleteUserPage = () => {
   return (
     <>
       <Page
+        noToolbar
         name="write"
         style={{
           color: "#F3EAD7",
@@ -75,6 +77,8 @@ const DeleteUserPage = () => {
               destroyToken();
 
               location.replace("/");
+            } else {
+              helper.showToastCenter("정확하게 작성해주세요");
             }
           }}
           validateOnMount={true}
@@ -123,6 +127,9 @@ const DeleteUserPage = () => {
               <div className="p-1">
                 <button
                   type="submit"
+                  style={{
+                    background: "#e63946",
+                  }}
                   className="button button-fill button-large disabled:opacity-50"
                   disabled={isSubmitting || !isValid}
                 >

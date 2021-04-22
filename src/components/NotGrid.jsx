@@ -56,6 +56,7 @@ import {
   userInfoState,
 } from "../recoil/state";
 import axios from "axios";
+import Discount from "./Discount";
 
 const NotGrid = ({ item }) => {
   const handleBells = useSetRecoilState(bellState);
@@ -117,6 +118,7 @@ const NotGrid = ({ item }) => {
           overflow: "hidden",
         }}
       >
+        {item.sale && <Discount discount={item.sale} />}
         <a
           className="w-full h-full flex flex-col items-center justify-center"
           href={`/item-info/${item.id}`}
@@ -147,7 +149,7 @@ const NotGrid = ({ item }) => {
                 color: "#fae6bd",
               }}
             >
-              {item.price}
+              {item.price - item.price * (item.sale * 0.01)}
             </p>
           </section>
         </div>

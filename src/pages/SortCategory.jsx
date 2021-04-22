@@ -117,7 +117,7 @@ const SortCategoryPage = () => {
                 {!is4 &&
                   items.map((item) => {
                     return sort(tags).includes(item.id) ? (
-                      <NotGrid item={item} />
+                      <NotGrid key={item.id} item={item} />
                     ) : null;
                   })}
               </ul>
@@ -128,7 +128,7 @@ const SortCategoryPage = () => {
                 <section className="flex items-around flex-wrap">
                   {items.map((item) => {
                     return sort(tags).includes(item.id) ? (
-                      <Grid item={item} />
+                      <Grid key={item.id} item={item} />
                     ) : null;
                   })}
                 </section>

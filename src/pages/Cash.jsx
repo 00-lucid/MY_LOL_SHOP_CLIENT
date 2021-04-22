@@ -48,22 +48,8 @@ const CashPage = () => {
   const [selectRp, handleSelectRp] = useRecoilState(selectRpState);
   const [userInfo, handleUserInfo] = useRecoilState(userInfoState);
 
-  const requestRp = async () => {
-    axios.post(
-      `${process.env.API_URL}/pay`,
-      {
-        selectRp,
-      },
-      {
-        headers: {
-          authorization: `Bearer ${getToken().token}`,
-        },
-      }
-    );
-  };
   const requestTossBuy = async (rp, price) => {
     const clientKey = "test_ck_OEP59LybZ8Bd6916DAQV6GYo7pRe";
-    // const secretKey = 'test_sk_5GePWvyJnrKbdKNP1ZeVgLzN97Eo:';
     var tossPayments = TossPayments(clientKey);
 
     rp = Number(rp);
@@ -75,8 +61,8 @@ const CashPage = () => {
       orderId: uuid4(),
       orderName: `${rp}RP`,
       customerName: `${userInfo.name}`,
-      successUrl: "https://localhost:3000" + "/success",
-      failUrl: window.location.origin + "/fail",
+      successUrl: "http://localhost:8080" + "/success",
+      failUrl: "http://localhost:8080" + "/fail",
     });
 
     // https로 요청 보내야 한다.

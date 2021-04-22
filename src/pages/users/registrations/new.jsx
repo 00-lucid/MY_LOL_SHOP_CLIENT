@@ -45,7 +45,7 @@ const SignUpPage = () => {
       }}
     >
       <Navbar title="회원가입" backLink={true} sliding={false}></Navbar>
-      <p className="font-semibole text-4xl text-center mt-5">회원가입</p>
+      {/* <p className="font-semibole text-4xl text-center mt-5">회원가입</p> */}
       <Formik
         initialValues={{
           name: "",
@@ -63,8 +63,9 @@ const SignUpPage = () => {
           await saveToken({ token: data.accToken, csrf: null });
 
           f7.dialog.preloader("잠시만 기다려주세요...");
-          await sleep(400);
-          location.replace("/");
+          setTimeout(() => {
+            location.replace("/");
+          }, 700);
         }}
         validateOnMount={true}
       >
@@ -149,9 +150,9 @@ const SignUpPage = () => {
             </List>
             <div className="p-4">
               <button
-                type="submit"
-                className="button button-fill button-large disabled:opacity-50"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 disabled={isSubmitting || !isValid}
+                type="submit"
               >
                 회원가입
               </button>

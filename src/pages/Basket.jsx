@@ -90,30 +90,30 @@ const BasketPage = () => {
     setTimeout(() => handleAlarms((old) => [...old].slice(1)), 1000);
 
     if (getToken().token) {
-      await axios.post(
-        `${process.env.API_URL}/add-bell`,
-        {
-          text: "구매해주셔서 감사합니다",
-        },
-        {
-          headers: {
-            authorization: `Bearer ${getToken().token}`,
-          },
-        }
-      );
+      // await axios.post(
+      //   `${process.env.API_URL}/add-bell`,
+      //   {
+      //     text: "구매해주셔서 감사합니다",
+      //   },
+      //   {
+      //     headers: {
+      //       authorization: `Bearer ${getToken().token}`,
+      //     },
+      //   }
+      // );
 
-      handleBellBadges((old) => [...old, { id: old.length + 1 }]);
+      // handleBellBadges((old) => [...old, { id: old.length + 1 }]);
 
-      handleBells((old) => [
-        ...old,
-        { title: data.text, createdAt: data.createdAt },
-      ]);
+      // handleBells((old) => [
+      //   ...old,
+      //   { title: data.text, createdAt: data.createdAt },
+      // ]);
 
-      handleIsAction((old) => !old);
+      // handleIsAction((old) => !old);
 
       helper.postBell(
         getToken().token,
-        "구매해주셔서 감사합니다",
+        `${items[0].name} 포함 ${items.length}개의 상품을 구매 하셨습니다`,
         handleBellBadges,
         handleBells,
         handleIsAction
@@ -153,25 +153,44 @@ const BasketPage = () => {
           {items &&
             items.length > 0 &&
             items.map((item, idx) => {
-              console.log(item);
-              const subTotal =
-                (Number(item.price) +
-                  (item.optionBox === "default"
-                    ? 0
-                    : Number(item.optionBox.split(" ")[1]))) *
-                Number(item.countBox);
-              total +=
-                (Number(item.price) +
-                  (item.optionBox === "default"
-                    ? 0
-                    : Number(item.optionBox.split(" ")[1]))) *
-                Number(item.countBox);
+              //  item.sale이 null이 아니면 item.price에 sale을 적용한 값에 count와 option을 더하거나 곱해줘야 함
+              let subTotal;
+              const salePrice =
+                Number(item.price) -
+                Number(item.price) * (Number(item.sale) * 0.01);
+              if (typeof salePrice === "number") {
+                subTotal =
+                  (salePrice +
+                    (item.optionBox === "default"
+                      ? 0
+                      : Number(item.optionBox.split(" ")[1]))) *
+                  Number(item.countBox);
+                total +=
+                  (salePrice -
+                    (item.optionBox === "default"
+                      ? 0
+                      : Number(item.optionBox.split(" ")[1]))) *
+                  Number(item.countBox);
+              } else {
+                subTotal =
+                  (Number(item.price) +
+                    (item.optionBox === "default"
+                      ? 0
+                      : Number(item.optionBox.split(" ")[1]))) *
+                  Number(item.countBox);
+                total +=
+                  (Number(item.price) +
+                    (item.optionBox === "default"
+                      ? 0
+                      : Number(item.optionBox.split(" ")[1]))) *
+                  Number(item.countBox);
+              }
 
               return <BasketItem item={item} subTotal={subTotal} />;
             })}
         </ul>
       </List>
-      <div className="flex text-xl font-black items-center justify-center rounded-md overflow-hidden">
+      <div className="flex text-xl font-black items-center justify-center rounded-md overflow-hidden mb-16">
         {getToken().token ? (
           <button
             className="fixed h-16 z-50 text-lg font-semibold flex flex-row items-center justify-center"

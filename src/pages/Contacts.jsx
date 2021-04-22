@@ -66,6 +66,7 @@ const ContactsPage = () => {
             ? contacts.map((contact, idx) => {
                 return (
                   <ContactItem
+                    key={contact.id}
                     idx={contact.id}
                     contact={contact}
                     select={false}
@@ -77,6 +78,7 @@ const ContactsPage = () => {
                 console.log(contact);
                 return (
                   <ContactItem
+                    key={contact.id}
                     idx={contact.id}
                     contact={contact}
                     select={true}

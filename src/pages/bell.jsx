@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   Button,
   f7ready,
@@ -21,12 +22,24 @@ import {
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { Pagination } from "swiper";
+import { getToken } from "../common/auth";
 import sanitizeHtml from "../js/utils/sanitizeHtml";
 import { bellState } from "../recoil/state";
 
 const BellPage = (props) => {
   const [bells, handleBells] = useRecoilState(bellState);
 
+  const deleteBells = async () => {
+    handleBells([]);
+    const { data } = await axios.delete("https://localhost:3000/delete-bells", {
+      headers: {
+        authrization: `Bearer ${getToken().token}`,
+      },
+    });
+  };
+
+  const arrBells = [...bells];
+  arrBells.reverse();
   return (
     <Page
       noToolbar
@@ -36,49 +49,36 @@ const BellPage = (props) => {
     >
       <Navbar title="알림" backLink>
         <NavRight>
-          <Link>
+          <Link onClick={deleteBells}>
             <Icon ios="f7:trash" aurora="f7:trash"></Icon>
           </Link>
         </NavRight>
-        <Subnavbar>
-          <Segmented>
-            <Button tabLink="#tab1" tabLinkActive>
-              활동알림
-            </Button>
-            <Button tabLink="#tab2">키워드알림</Button>
-          </Segmented>
-        </Subnavbar>
       </Navbar>
-      <Tabs>
-        <Tab id="tab1" tabActive className="page-content">
-          <List className="overflow-scroll">
-            {bells.length > 0 &&
-              bells.map((bell, idx) => {
-                console.log(bell);
-                return (
-                  <ListItem
-                    key={idx}
-                    title={bell.text}
-                    header={bell.createdAt}
-                    style={{
-                      backgroundColor: "#02111b",
-                    }}
-                  />
-                );
-              })}
-          </List>
-        </Tab>
-        <Tab id="tab2" className="page-content">
-          <List>
-            <ListItem
-              title="키워드 알림1"
-              style={{
-                backgroundColor: "#02111b",
-              }}
-            ></ListItem>
-          </List>
-        </Tab>
-      </Tabs>
+      <List className="overflow-scroll h-screen">
+        {arrBells.length > 0 &&
+          arrBells.map((bell, idx) => {
+            console.log(bell);
+            return bell.read ? (
+              <ListItem
+                key={idx}
+                title={bell.text}
+                header={bell.createdAt}
+                style={{
+                  backgroundColor: "#02111b",
+                }}
+              />
+            ) : (
+              <ListItem
+                key={idx}
+                title={bell.text}
+                header={bell.createdAt}
+                style={{
+                  backgroundColor: "#e63946",
+                }}
+              />
+            );
+          })}
+      </List>
     </Page>
   );
 };

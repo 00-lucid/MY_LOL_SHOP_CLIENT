@@ -79,37 +79,6 @@ const HomePage = () => {
     relationItemState
   );
 
-  const requestCurItemInfo = async (itemId) => {
-    // 카드의 id를 이용해서 알맞는 아이탬 내용을 가져와 state에 저장해야 합니다.
-    // 해당 state는 ItemInfo page 랜더에 활용됩니다.
-    if (getToken().token) {
-      const { data } = await axios.post(
-        `${process.env.API_URL}/get-item-info`,
-        { id: itemId },
-        { headers: { authorization: `Bearer ${getToken().token}` } }
-      );
-
-      handleReview(data.reviews);
-
-      handleRelationItemState(data.relationItems);
-
-      handleCurItemInfo(data);
-    } else {
-      const { data } = await axios.post(
-        `${process.env.API_URL}/get-item-info`,
-        {
-          id: itemId,
-        }
-      );
-
-      handleReview(data.reviews);
-
-      handleCurItemInfo(data);
-
-      handleRelationItemState(data.relationItems);
-    }
-  };
-
   const requestItemList = async () => {
     // db의 아이탬을 가져옵니다.
     const { data } = await axios.get(`${process.env.API_URL}/get-item-list`);
@@ -146,7 +115,6 @@ const HomePage = () => {
       axios.get(`${process.env.API_URL}/clear-bell-bedge`, {
         headers: { authorization: `Bearer ${getToken().token}` },
       });
-
       handleBellBadges([]);
     }
   };
@@ -197,7 +165,13 @@ const HomePage = () => {
             <Icon ios="f7:search" aurora="f7:search"></Icon>
           </Link>
           {loggedIn ? (
-            <Link href="/bell" onClick={clearBellBadges}>
+            <Link
+              href="/bell"
+              onClick={() => {
+                clearBellBadges();
+                requestBell();
+              }}
+            >
               <Icon ios="f7:bell" aurora="f7:bell">
                 {bellBadges.length ? (
                   <Badge color="red">{bellBadges.length}</Badge>
@@ -261,15 +235,7 @@ const HomePage = () => {
         <List className="overflow-scroll flex flex-row">
           {items.length > 0
             ? items.map((item, idx) => {
-                return (
-                  <MyCard
-                    idx={item.id}
-                    img={item.img}
-                    name={item.name}
-                    itemId={item.id}
-                    item={item}
-                  />
-                );
+                return <MyCard key={item.id} item={item} />;
               })
             : "loading..."}
         </List>
@@ -285,15 +251,7 @@ const HomePage = () => {
           {items.length > 0
             ? items
                 .slice(items.length - 3)
-                .map((item) => (
-                  <MyCard
-                    idx={item.id}
-                    img={item.img}
-                    name={item.name}
-                    itemId={item.id}
-                    item={item}
-                  />
-                ))
+                .map((item) => <MyCard key={item.id} item={item} />)
             : "loading..."}
         </List>
       </Block>
@@ -308,15 +266,7 @@ const HomePage = () => {
           {items.length > 0
             ? items
                 .filter((item) => item.status === "sale")
-                .map((item) => (
-                  <MyCard
-                    idx={item.id}
-                    img={item.img}
-                    name={item.name}
-                    itemId={item.id}
-                    item={item}
-                  />
-                ))
+                .map((item) => <MyCard key={item.id} item={item} />)
             : "loading..."}
         </List>
       </Block>

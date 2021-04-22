@@ -279,6 +279,8 @@ const MyApp = ({ socket }) => {
           tabActive
           url="/"
           iosDynamicNavbar={false}
+          browserHistory="true"
+          browserHistorySeparator=""
         />
         <View id="view-contacts" name="contacts" tab url="/contacts" />
         <View id="view-carts" name="basket" tab url="/basket" />

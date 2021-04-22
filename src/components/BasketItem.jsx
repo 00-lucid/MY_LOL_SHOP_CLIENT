@@ -54,6 +54,7 @@ import {
 } from "../recoil/state";
 import axios from "axios";
 import helper from "../pages/modules/helper";
+import Discount from "./Discount";
 
 const BasketItem = ({ item, subTotal }) => {
   let total = 0;
@@ -94,6 +95,7 @@ const BasketItem = ({ item, subTotal }) => {
         }}
       >
         <img src={item.img} className="w-auto"></img>
+
         <ListItem
           key={item.id}
           // header={contact.name}
@@ -106,8 +108,21 @@ const BasketItem = ({ item, subTotal }) => {
             borderColor: "#C79A3A",
           }}
         >
-          <section className="flex flex-col w-full ">
-            <p className="font-semibold">{item.name}</p>
+          <section className="flex flex-col w-full">
+            <section className="flex flex-row items-center">
+              <p className="font-semibold">{item.name}</p>
+              {/* {item.sale && (
+                <div
+                  className="w-7 h-7 m-2 text-xs rounded-full bg-red-500 flex items-center justify-center"
+                  id="discount"
+                  style={{
+                    color: "#F3EAD7",
+                  }}
+                >
+                  -<p className="text-sm font-bold">{item.sale}</p>%
+                </div>
+              )} */}
+            </section>
             <section className="flex flex-row absolute right-7 items-center">
               <img
                 src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
@@ -123,7 +138,11 @@ const BasketItem = ({ item, subTotal }) => {
             >{`옵션: ${item.optionBox} 수량: ${item.countBox}개`}</p>
             <p className="text-xs text-gray-500">{item.createdAt}</p>
           </section>
-          <Button onClick={outBasket.bind(null, item)} className="bottom-16">
+          <Button
+            onClick={outBasket.bind(null, item)}
+            className="bottom-16"
+            style={{ color: "#e63946" }}
+          >
             <Icon
               ios="f7:trash_fill"
               aurora="f7:trash_fill"
