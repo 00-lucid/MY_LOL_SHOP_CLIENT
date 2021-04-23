@@ -49,6 +49,7 @@ const CashPage = () => {
   const [userInfo, handleUserInfo] = useRecoilState(userInfoState);
 
   const requestTossBuy = async (rp, price) => {
+    // TODO 토스 결제 API 요청 함수
     const clientKey = "test_ck_OEP59LybZ8Bd6916DAQV6GYo7pRe";
     var tossPayments = TossPayments(clientKey);
 
@@ -64,30 +65,6 @@ const CashPage = () => {
       successUrl: "http://localhost:8080" + "/success",
       failUrl: "http://localhost:8080" + "/fail",
     });
-
-    // https로 요청 보내야 한다.
-
-    // toss body는 state로 관리?
-    // axios.post(`${TOSS}/payments`, {
-    //     "orderNo": 1,
-    //     "amount": amount,
-    //     "amountTaxFree": 0,
-    //     "productDesc": 'TEST',
-    //     "apiKey": "테스트용 키 O 실거레용 키 X",
-    //     "autoExecute": true,
-    //     // autoExcute: true = 자동으로 결제 승인
-    //     // autoExcute: false = 결제 승인 toss API를 통해 승인 과정 거쳐야 함
-    //     "resultCallback": "https://YOUR-SITE.COM/callback",
-    //     "retUrl": "http://YOUR-SITE.COM/ORDER-CHECK",
-    //     "retCancelUrl": "http://YOUR-SITE.COM/close",
-    //     // "expiredTime": "xxxx-xx-xx xx:xx:xx" option
-    // })
-    // code 0 = 결제 성공
-    // checkoutPage = 결제를 진행할 수 있는 토스 결제 웹페이지 URL, 사용자에게 띄워주세요
-    // payToken 거래를 구분할 수 있는 토스 고유 값 결제를 진행할 때, 결제를 환불할 떄, 결제의 현재 상태를 파악할 때,
-    // 해당 고유 번호를 통해 결제 건에 접근하므르 잘 보관!
-
-    // payments post -> checkoutPage redirect -> retUrl로 고객 받음 -> status=PAY_COMPLETE일 경우에만 결제 완료
   };
 
   return (
@@ -297,18 +274,7 @@ const CashPage = () => {
                 </label>
               </li>
             </ul>
-            {/* <Radio name="credit" value="580" className="flex flex-row" >
-                        <img src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png" className="w-5 h-5 m-0.5"></img>580rp
-                    </Radio> */}
           </section>
-          {/* <Button
-            style={{}}
-            onClick={() => {
-              requestTossBuy(selectRp, rpPrice);
-            }}
-          >
-            확인
-          </Button> */}
           <button
             className="fixed h-16 z-50 text-lg font-semibold"
             onClick={() => requestTossBuy(selectRp, rpPrice)}

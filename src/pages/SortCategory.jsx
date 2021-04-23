@@ -49,7 +49,7 @@ const SortCategoryPage = () => {
   const handleReview = useSetRecoilState(reviewState);
   const handleCurItemInfo = useSetRecoilState(curItemInfoState);
 
-  const [is4, handleIs4] = useState(false);
+  const [isGrid, handleIs4] = useState(false);
   const [tags, handleTag] = useRecoilState(tagState);
   const [category, handleCategory] = useRecoilState(categoryState);
   const [recentItem, handleRecentItem] = useRecoilState(recentItemState);
@@ -58,6 +58,7 @@ const SortCategoryPage = () => {
   );
 
   const sort = (tags) => {
+    // TODO 상품의 태그를 기반으로 알맞는 카테고리에 상품을 배치하는 함수
     const sorting = tags.filter((tag, idx) => {
       if (tags[idx - 1] && tags[idx + 1] && category !== "세트") {
         return !(
@@ -112,9 +113,9 @@ const SortCategoryPage = () => {
             </button>
           </section>
           <section className="h-full overflow-scroll">
-            {!is4 && (
+            {!isGrid && (
               <ul className="flex flex-col items-center justify-center pb-10">
-                {!is4 &&
+                {!isGrid &&
                   items.map((item) => {
                     return sort(tags).includes(item.id) ? (
                       <NotGrid key={item.id} item={item} />
@@ -123,7 +124,7 @@ const SortCategoryPage = () => {
               </ul>
             )}
 
-            {is4 && (
+            {isGrid && (
               <ul className="pb-10 flex">
                 <section className="flex items-around flex-wrap">
                   {items.map((item) => {

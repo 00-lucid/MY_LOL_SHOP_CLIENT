@@ -42,12 +42,14 @@ const AdminPage = () => {
 
   const [isAddItem, handleIsAddItem] = useRecoilState(isAddItemState);
 
-  const data = statistic.statisticTagSale.map((obj) => {
+  const tagBuy = statistic.statisticTagSale.map((obj) => {
+    // TODO 태그별 구매 인원 PIECHART를 랜더하기 위해 랜덤한 색상을 뽑아 서버에서 받은 데이터와 병합하는 코드
     var randomColor = Math.floor(Math.random() * 16777215).toString(16);
     return Object.assign({}, obj, { color: `#${randomColor}` });
   });
 
-  const data1 = statistic.tierArr.map((obj) => {
+  const userTier = statistic.tierArr.map((obj) => {
+    // TODO 사용자 티어 분포 PIECHART를 랜더하기 위해 랜덤한 색상을 뽑아 서버에서 받은 데이터와 병합하는 코드
     var randomColor = Math.floor(Math.random() * 16777215).toString(16);
     return Object.assign({}, obj, { color: `#${randomColor}` });
   });
@@ -65,7 +67,7 @@ const AdminPage = () => {
             }}
           >
             <p className="text-lg">사용자 티어 분포</p>
-            <PieChart className="w-auto" tooltip datasets={data1} />
+            <PieChart className="w-auto" tooltip datasets={userTier} />
           </Block>
           <Block
             strong
@@ -75,7 +77,7 @@ const AdminPage = () => {
             }}
           >
             <p className="text-lg">태그별 구매 인원</p>
-            <PieChart className="w-auto" tooltip datasets={data} />
+            <PieChart className="w-auto" tooltip datasets={tagBuy} />
           </Block>
         </section>
 

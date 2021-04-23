@@ -67,29 +67,12 @@ const ItemInfo = ({ id }) => {
   );
 
   const getSelectValue = () => {
-    // addItem에서 사용한다. select el value를 가져온다.
     const optionBox = document.querySelector("#option-box");
     const countBox = document.querySelector("#count-box");
     return [optionBox.value, countBox.value];
   };
 
-  // const requestCurItemInfo = async (itemId) => {
-  //   // 카드의 id를 이용해서 알맞는 아이탬 내용을 가져와 state에 저장해야 합니다.
-  //   // 해당 state는 ItemInfo page 랜더에 활용됩니다.
-  //   const { data } = await axios.post(`${process.env.API_URL}/get-item-info`, {
-  //     id: itemId,
-  //   });
-
-  //   handleReview(data.reviews);
-
-  //   handleCurItemInfo(data);
-
-  //   handleRelationItemState(data.relationItems);
-  // };
-
   useEffect(async () => {
-    // back 버튼을 누를 때 state를 변경 시켜서 url item을 가져올 수 있도록 해야한다
-    // url itemId에 따라 서버에서 아이탬 정보를 가져와서 랜더해야한다.
     const url = location.href.split("/");
     const itemId = url[url.length - 1];
 
@@ -119,10 +102,7 @@ const ItemInfo = ({ id }) => {
   }, []);
 
   const addItem = async (item) => {
-    // option과 count 정보를 가져와서 같이 basketState에 넣어줘야 함
-    // 그리고 Basket.jsx에서 해당 정보들을 랜더링 해줘야 됨
-    // 만약 이미 장바구니에 아이탬이 있을 경우 있다고 알려줘야 함
-    // Line
+    // TODO 장바구니에 아이탬을 담고 lineitem에 추가하는 함수
     if (
       items &&
       items.length > 0 &&
@@ -170,6 +150,7 @@ const ItemInfo = ({ id }) => {
     }
   };
   const addDib = async () => {
+    // TODO 찜목록 추가 함수
     if (getToken().token) {
       await axios.post(
         `${process.env.API_URL}/add-dib`,
@@ -214,7 +195,6 @@ const ItemInfo = ({ id }) => {
         helper.showToastCenter("RP가 부족합니다");
         return;
       }
-      // postBell(token, text, handleBellBadges, handleBells, handleIsAction) {
 
       helper.postBell(
         getToken().token,

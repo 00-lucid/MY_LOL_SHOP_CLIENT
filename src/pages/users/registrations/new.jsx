@@ -180,10 +180,6 @@ const SignUpPage = () => {
           bottom: "60px",
           width: "335px",
           left: "16.5px",
-          // borderWidth: "1px",
-          // borderColor: "#c79a3a",
-          // color: "#060a0f",
-          // backgroundColor: "#f3ead7",
         }}
       >
         로그인

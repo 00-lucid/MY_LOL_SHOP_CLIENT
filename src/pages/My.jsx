@@ -49,6 +49,36 @@ const MyPage = () => {
   const [userInfo, handleUserInfo] = useRecoilState(userInfoState);
   const [orderList, handleOrderList] = useRecoilState(orderListState);
 
+  const requestChangeName = async () => {
+    // TODO 사용자 이름을 변경하는 함수
+    await axios.post(
+      "https:localhost:3000/config-name",
+      {
+        newName: newName,
+        // password
+      },
+      {
+        headers: {
+          authorization: `Bearer ${getToken().token}`,
+        },
+      }
+    );
+    handleAlarms((old) => {
+      return [
+        ...old,
+        {
+          text: "이름변경 성공!",
+        },
+      ];
+    });
+    setTimeout(() => {
+      handleAlarms((old) => {
+        return [...old].slice(1);
+      });
+    }, 1000);
+    location.replace("/");
+  };
+
   return (
     <Page name="basket">
       <Navbar sliding={false}>
@@ -109,37 +139,7 @@ const MyPage = () => {
                     background: "#f3ead7",
                     color: "black",
                   }}
-                  onClick={() => {
-                    axios
-                      .post(
-                        "https:localhost:3000/config-name",
-                        {
-                          newName: newName,
-                          // password
-                        },
-                        {
-                          headers: {
-                            authorization: `Bearer ${getToken().token}`,
-                          },
-                        }
-                      )
-                      .then((res) => {
-                        handleAlarms((old) => {
-                          return [
-                            ...old,
-                            {
-                              text: "이름변경 성공!",
-                            },
-                          ];
-                        });
-                        setTimeout(() => {
-                          handleAlarms((old) => {
-                            return [...old].slice(1);
-                          });
-                        }, 1000);
-                        location.replace("/");
-                      });
-                  }}
+                  onClick={requestChangeName}
                 >
                   확인
                 </Button>

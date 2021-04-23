@@ -61,6 +61,7 @@ const ConfigPwPage = () => {
           initialValues={{ password: "", newPassword: "" }}
           validationSchema={SignInSchema}
           onSubmit={async (values) => {
+            // TODO 비밀번호 변경 API로 요청을 보내는 부분
             if (values.password !== values.newPassword) {
               const { data } = await axios.post(
                 "https://localhost:3000/config-pw",

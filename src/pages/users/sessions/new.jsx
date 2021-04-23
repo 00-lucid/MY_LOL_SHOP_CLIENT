@@ -92,8 +92,7 @@ const SessionNewPage = () => {
         }}
         validationSchema={SignInSchema}
         onSubmit={async (values) => {
-          // 쿠키 값이 존재하면 쿠키 값으로 email state를 변경
-
+          // TODO 자동로그인, 아이디저장을 위한 쿠키 생성 및 localstorage 사용하는 로직
           if (isAutoLogin) {
             // 자동로그인
             setCookie("rememberEmail", values.email, { maxAge: 2000 });
@@ -126,15 +125,6 @@ const SessionNewPage = () => {
           setTimeout(() => {
             location.replace("/");
           }, 700);
-
-          // try {
-          //   await login({ user: values });
-          //   f7.dialog.close();
-          //   location.replace('/')
-          // } catch(error) {
-          //   f7.dialog.close();
-          //   toast.get().setToastText(error?.response?.data || error?.message).openToast()
-          // }
         }}
         validateOnMount={true}
       >

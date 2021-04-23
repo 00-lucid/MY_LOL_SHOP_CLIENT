@@ -75,6 +75,7 @@ const SearchPage = (props) => {
   };
 
   const requestSearchKeyword = () => {
+    // TODO 인기 검색어를 위한 검색어 기록 함수
     if (
       searchKeyword !== "" &&
       searchKeyword !== " " &&

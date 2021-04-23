@@ -31,6 +31,8 @@ const BellPage = (props) => {
   const handleBellBadges = useSetRecoilState(bellBedgeState);
 
   const deleteBells = async () => {
+    // TODO 벨 데이터를 삭제하는 함수
+    // ! 미완성
     handleBells([]);
     const { data } = await axios.delete("https://localhost:3000/delete-bells", {
       headers: {

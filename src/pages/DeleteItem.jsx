@@ -51,6 +51,7 @@ const DeleteItemPage = () => {
   };
 
   const deleteItem = async (itemId) => {
+    // TODO 아이탬 삭제 API로 요청을 보내는 함수
     await axios.post(
       `${process.env.API_URL}/delete-item`,
       {
@@ -117,6 +118,7 @@ const DeleteItemPage = () => {
                     </Button>
                   </ListItem>
                   {countView === idx + 1 && (
+                    // TODO 상품을 상세보기 위해 클릭하면 나오는 컴포넌트
                     <div
                       className="bg-white flex flex-row"
                       style={{

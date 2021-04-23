@@ -65,7 +65,8 @@ const CreateItemPage = () => {
   };
 
   const requestUpload = async () => {
-    // upload img
+    // TODO 아이탬 업로드 API로 요청을 보내는 함수
+    // ! 사진 업로드 기능 미구현
     axios.post(
       `${process.env.API_URL}/upload`,
       {
@@ -80,6 +81,7 @@ const CreateItemPage = () => {
   };
 
   const changeImg = (event) => {
+    // TODO 썸네일 출력을 위한 함수
     const reader = new FileReader();
 
     reader.onload = function () {
@@ -128,6 +130,7 @@ const CreateItemPage = () => {
   };
 
   return (
+    // TODO 추가 옵션과 추가 태그 정보는 state로 관리하다가 submit시 전송
     <>
       <Page name="write" noToolbar>
         <Navbar title="상품추가" backLink />
@@ -335,17 +338,6 @@ const CreateItemPage = () => {
                       </Button>
                     )}
                   </Block>
-                  {/* <div className="p-4">
-                    <button
-                      type="submit"
-                      className="button button-fill button-large disabled:opacity-50"
-                      style={{
-                        backgroundColor: "#4361ee",
-                      }}
-                    >
-                      확인
-                    </button>
-                  </div> */}
                   <button
                     className="fixed h-16 z-50 text-lg font-semibold flex justify-center items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                     type="submit"
@@ -353,10 +345,6 @@ const CreateItemPage = () => {
                       bottom: "60px",
                       width: "335px",
                       left: "16.5px",
-                      // borderWidth: "1px",
-                      // borderColor: "#C79A3A",
-                      // color: "#060a0f",
-                      // backgroundColor: "#C79A3A",
                     }}
                   >
                     확인

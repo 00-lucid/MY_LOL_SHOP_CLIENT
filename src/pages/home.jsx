@@ -100,6 +100,7 @@ const HomePage = () => {
   };
 
   const requestBell = async () => {
+    // TODO 최신 벨 생성 함수
     if (loggedIn) {
       const { data } = await axios.get(`${process.env.API_URL}/get-bell`, {
         headers: { authorization: `Bearer ${getToken().token}` },
@@ -112,6 +113,7 @@ const HomePage = () => {
   };
 
   const clearBellBadges = async () => {
+    // TODO 최신 벨을 읽었을 때, read 처리하는 함수
     if (loggedIn) {
       axios.get(`${process.env.API_URL}/clear-bell-bedge`, {
         headers: { authorization: `Bearer ${getToken().token}` },
@@ -128,7 +130,6 @@ const HomePage = () => {
 
   useEffect(() => {
     requestItemList();
-
     requestTag();
   }, []);
 
@@ -227,6 +228,7 @@ const HomePage = () => {
             color: "#F3EAD7",
           }}
         >
+          // TODO 카테고리 별 상품으로 들어가는 기능을 하는 컴포넌트들
           <CategoryBox propCategory="세트" />
           <CategoryBox propCategory="스킨" />
           <CategoryBox propCategory="챔피언" />
