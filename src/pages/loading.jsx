@@ -27,7 +27,6 @@ const LoadingPage = () => {
         },
       }
     );
-    console.log(data);
   }, []);
   return (
     <>

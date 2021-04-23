@@ -65,7 +65,6 @@ const DeleteUserPage = () => {
           initialValues={{ password: "", check: "" }}
           validationSchema={SignInSchema}
           onSubmit={async (values) => {
-            console.log(values);
             if (values.check === "정말 탈퇴하겠습니다") {
               await axios.post(`${process.env.API_URL}/delete-user`, values, {
                 headers: {

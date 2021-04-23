@@ -61,7 +61,7 @@ const MessageCircle = () => {
   // const [messages, handleMessages] = useState(['some message', 'some message']);
 
   const requestChat = () => {
-    axios.get("https://localhost:3000").then((res) => console.log(res.data));
+    // axios.get("https://localhost:3000").then((res) => console.log(res.data));
   };
 
   return (

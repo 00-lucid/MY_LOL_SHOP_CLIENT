@@ -58,6 +58,7 @@ const HomePage = () => {
   let loggedIn = !!getToken().token;
 
   const items = useRecoilValue(itemState);
+  const lineitmes = useRecoilValue(basketState);
 
   const handleBells = useSetRecoilState(bellState);
   const handleItems = useSetRecoilState(basketState);
@@ -188,7 +189,12 @@ const HomePage = () => {
             </Link>
           )}
           {loggedIn ? (
-            <Link href="/cash">
+            <Link
+              href="/cash"
+              onClick={() => {
+                helper.saveLineItem(lineitmes);
+              }}
+            >
               <Icon ios="f7:plus" aurora="f7:plus"></Icon>
             </Link>
           ) : (
@@ -234,7 +240,7 @@ const HomePage = () => {
         </p>
         <List className="overflow-scroll flex flex-row">
           {items.length > 0
-            ? items.map((item, idx) => {
+            ? items.slice(0, 10).map((item, idx) => {
                 return <MyCard key={item.id} item={item} />;
               })
             : "loading..."}

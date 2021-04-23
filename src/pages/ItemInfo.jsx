@@ -93,7 +93,6 @@ const ItemInfo = ({ id }) => {
     const url = location.href.split("/");
     const itemId = url[url.length - 1];
 
-    console.log(itemId);
     if (!getToken().token) {
       const { data } = await axios.post(
         `${process.env.API_URL}/get-item-info`,
@@ -101,7 +100,6 @@ const ItemInfo = ({ id }) => {
           id: itemId,
         }
       );
-      console.log(data);
       handleInfo(data);
     } else {
       const { data } = await axios.post(
@@ -170,8 +168,6 @@ const ItemInfo = ({ id }) => {
       }
       helper.helpAddAlarm("장바구니에 추가 되었습니다!", handleAlarms);
     }
-
-    console.log(3);
   };
   const addDib = async () => {
     if (getToken().token) {
@@ -339,7 +335,7 @@ const ItemInfo = ({ id }) => {
 
             <section className="bg-section fixed h-16 z-50 ">
               <button
-                className="fixed h-16 z-50 text-lg font-semibold"
+                className="fixed h-16 z-50 text-lg font-semibold mb-2"
                 onClick={() => {
                   addItem(info);
                 }}
@@ -364,10 +360,10 @@ const ItemInfo = ({ id }) => {
                     bottom: "20px",
                     width: "335px",
                     left: "16.5px",
-                    borderWidth: "1px",
+                    // borderWidth: "1px",
                     borderColor: "#C79A3A",
                     color: "#060a0f",
-                    backgroundColor: "#C79A3A",
+                    backgroundColor: "#f3ead7",
                   }}
                 >
                   바로구매
@@ -383,10 +379,10 @@ const ItemInfo = ({ id }) => {
                     bottom: "20px",
                     width: "335px",
                     left: "16.5px",
-                    borderWidth: "1px",
+                    // borderWidth: "1px",
                     borderColor: "#C79A3A",
                     color: "#060a0f",
-                    backgroundColor: "#C79A3A",
+                    backgroundColor: "#f3ead7",
                   }}
                 >
                   바로구매

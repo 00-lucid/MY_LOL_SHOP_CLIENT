@@ -14,8 +14,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { toast, sleep } from "../../../js/utils.js";
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { userState } from "../../../recoil/state.js";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { userInfoState, userState } from "../../../recoil/state.js";
 import { getToken, saveToken } from "../../../common/auth";
 import "../../../css/app.less";
 import { useCookies } from "react-cookie";
@@ -35,7 +35,16 @@ const SignUpSchema = Yup.object().shape({
 
 const SignUpPage = () => {
   const [info, handleUserState] = useRecoilState(userState);
+  const handleUserInfo = useSetRecoilState(userInfoState);
+  const requestUserInfo = async () => {
+    const { data } = await axios.get(`${process.env.API_URL}/user-info`, {
+      headers: {
+        authorization: `Bearer ${getToken().token}`,
+      },
+    });
 
+    handleUserInfo(data);
+  };
   return (
     <Page
       noToolbar
@@ -61,7 +70,7 @@ const SignUpPage = () => {
           );
 
           await saveToken({ token: data.accToken, csrf: null });
-
+          requestUserInfo();
           f7.dialog.preloader("잠시만 기다려주세요...");
           setTimeout(() => {
             location.replace("/");
@@ -152,6 +161,10 @@ const SignUpPage = () => {
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 disabled={isSubmitting || !isValid}
+                style={{
+                  color: "black",
+                  backgroundColor: "#f3ead7",
+                }}
                 type="submit"
               >
                 회원가입
@@ -160,6 +173,21 @@ const SignUpPage = () => {
           </Form>
         )}
       </Formik>
+      <a
+        href="/users/sign_in"
+        className="fixed h-16 z-50 text-lg font-semibold flex justify-center items-center bg-blue-500 text-white font-bold py-2 px-4 rounded"
+        style={{
+          bottom: "60px",
+          width: "335px",
+          left: "16.5px",
+          // borderWidth: "1px",
+          // borderColor: "#c79a3a",
+          // color: "#060a0f",
+          // backgroundColor: "#f3ead7",
+        }}
+      >
+        로그인
+      </a>
     </Page>
   );
 };

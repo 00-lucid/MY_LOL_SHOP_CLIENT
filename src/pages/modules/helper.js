@@ -74,7 +74,6 @@ export default {
   },
 
   saveLineItem(data) {
-    console.log("saved lineItem");
     localStorage.setItem("lineItem", JSON.stringify(data));
   },
 

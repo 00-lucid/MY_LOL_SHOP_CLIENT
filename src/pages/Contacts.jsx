@@ -75,7 +75,6 @@ const ContactsPage = () => {
               })
             : !isPopWrite
             ? contacts.map((contact, idx) => {
-                console.log(contact);
                 return (
                   <ContactItem
                     key={contact.id}
@@ -100,18 +99,27 @@ const ContactsPage = () => {
         <Fab
           position="right-bottom"
           slot="fixed"
-          color="red"
+          color="white"
           onClick={() => {
             handleSelectContacts(() => []);
             handleIsContact((old) => !old);
           }}
         >
-          <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>
-          <Icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></Icon>
+          <Icon
+            ios="f7:plus"
+            aurora="f7:plus"
+            md="material:add"
+            color="black"
+          ></Icon>
+          <Icon
+            ios="f7:xmark"
+            aurora="f7:xmark"
+            md="material:close"
+            color="black"
+          ></Icon>
           <FabButtons position="top">
             <button
               onClick={() => {
-                console.log(selectContacts);
                 if (selectContacts.length) {
                   handleIsPopWrite((old) => !old);
                 } else {
@@ -120,7 +128,11 @@ const ContactsPage = () => {
               }}
             >
               <FabButton label="리뷰하기">
-                <Icon ios="f7:bubble_right" aurora="f7:bubble_right"></Icon>
+                <Icon
+                  ios="f7:bubble_right"
+                  aurora="f7:bubble_right"
+                  color="black"
+                ></Icon>
               </FabButton>
             </button>
           </FabButtons>

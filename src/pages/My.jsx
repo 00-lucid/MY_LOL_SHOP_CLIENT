@@ -106,7 +106,8 @@ const MyPage = () => {
                   fill
                   className="mt-3 w-32"
                   style={{
-                    background: "#e63946",
+                    background: "#f3ead7",
+                    color: "black",
                   }}
                   onClick={() => {
                     axios
@@ -123,7 +124,6 @@ const MyPage = () => {
                         }
                       )
                       .then((res) => {
-                        console.log(res.data);
                         handleAlarms((old) => {
                           return [
                             ...old,
@@ -180,7 +180,7 @@ const MyPage = () => {
         ></hr>
 
         <p className="text-lg mt-9 font-bold">찜목록</p>
-        <List className="flex flex-row overflow-scroll w-full text-center">
+        <List className="flex flex-row overflow-scroll w-full">
           {dibList.length > 0
             ? dibList.map((dib, idx) => {
                 // 최근 찜 아이탬이 앞으로 가야됨
@@ -196,31 +196,31 @@ const MyPage = () => {
               })
             : "찜 목록이 없습니다"}
         </List>
-
-        {/* </List> */}
-        <div className="w-full ">
-          <List>
-            {/* {
-                orderList.map(el => <ListItem key={el.id} title="2021-04-01">{el.total}</ListItem>)
-                        } */}
-            {/* <ListItem title="구매한 카트"></ListItem> */}
-          </List>
-        </div>
       </div>
 
-      <Fab position="right-bottom" slot="fixed" color="red">
-        <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>
-        <Icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></Icon>
+      <Fab position="right-bottom" slot="fixed" color="white">
+        <Icon
+          ios="f7:plus"
+          aurora="f7:plus"
+          md="material:add"
+          color="black"
+        ></Icon>
+        <Icon
+          ios="f7:xmark"
+          aurora="f7:xmark"
+          md="material:close"
+          color="black"
+        ></Icon>
         <FabButtons position="top">
           {/* 수정을 누르면 닉네임을 수정할 수 있어야 됨 */}
           <button onClick={() => handleIsConfig((old) => !old)}>
             <FabButton>
-              <Icon ios="f7:pencil" aurora="f7:pencil"></Icon>
+              <Icon ios="f7:pencil" aurora="f7:pencil" color="black"></Icon>
             </FabButton>
           </button>
           {/* <button className="mb-3" href="/delete-user"><FabButton label="탈퇴"><Icon ios="f7:trash" aurora="f7:trash"></Icon></FabButton></button> */}
           <a href="/delete-user" className="mb-3">
-            <Icon ios="f7:trash" aurora="f7:trash"></Icon>
+            <Icon ios="f7:trash" aurora="f7:trash" color="black"></Icon>
           </a>
         </FabButtons>
       </Fab>

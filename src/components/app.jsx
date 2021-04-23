@@ -72,11 +72,7 @@ const MyApp = ({ socket }) => {
   ]);
 
   const autoLogin = async () => {
-    // 둘다 있으면 자동로그인 시켜줌
     if (cookies.rememberEmail && cookies.rememberPassword) {
-      console.log("자동로그인");
-      console.log(cookies.rememberEmail);
-      console.log(cookies.rememberPassword);
       const { data } = await axios.post(`${process.env.API_URL}/signin`, {
         email: cookies.rememberEmail,
         password: cookies.rememberPassword,
@@ -86,20 +82,18 @@ const MyApp = ({ socket }) => {
   };
 
   useEffect(() => {
-    console.log("load");
-
     if (!loggedIn) {
       autoLogin();
     }
     const data = helper.getLineItem();
     handleItems(data);
+
+    if (loggedIn) {
+      requestUserInfo();
+    }
   }, []);
 
   useEffect(() => {
-    // localStorage.clear();
-    // const data = helper.getLineItem();
-
-    // handleItems(data);
     if (loggedIn) {
       items.forEach(async (item) => {
         await axios.post(
@@ -119,7 +113,6 @@ const MyApp = ({ socket }) => {
       });
     }
   }, [loggedIn]);
-
   // Login screen demo data
   let loggedIn = !!getToken().token;
   const handleLogout = async () => {
@@ -148,14 +141,14 @@ const MyApp = ({ socket }) => {
     handleDibList([...data].reverse());
   };
 
-  const requestLineItem = async () => {
-    const { data } = await axios.get(`${process.env.API_URL}/get-line-item`, {
-      headers: {
-        authorization: `Bearer ${getToken().token}`,
-      },
-    });
-    // handleItems((old) => [...old, ...data]);
-  };
+  // const requestLineItem = async () => {
+  //   const { data } = await axios.get(`${process.env.API_URL}/get-line-item`, {
+  //     headers: {
+  //       authorization: `Bearer ${getToken().token}`,
+  //     },
+  //   });
+  //   // handleItems((old) => [...old, ...data]);
+  // };
 
   const requestUserInfo = async () => {
     const { data } = await axios.get(`${process.env.API_URL}/user-info`, {
@@ -259,17 +252,19 @@ const MyApp = ({ socket }) => {
             )
             // <Icon ios="f7:multiply" aurora="f7:multiply" md="material:close"></Icon>
           }
-          {loggedIn && (
-            <Link
-              tabLink="#view-admin"
-              icon="las la-calculator"
-              text="관리"
-              onClick={() => {
-                requestStatistics();
-                requestAllTag();
-              }}
-            />
-          )}
+          {loggedIn &&
+            (userInfo.tier === "GrandMaster" ||
+              userInfo.tier === "Challenger") && (
+              <Link
+                tabLink="#view-admin"
+                icon="las la-calculator"
+                text="관리"
+                onClick={() => {
+                  requestStatistics();
+                  requestAllTag();
+                }}
+              />
+            )}
         </Toolbar>
         <View
           id="view-home"

@@ -20,14 +20,15 @@ import {
   Tabs,
 } from "framework7-react";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Pagination } from "swiper";
 import { getToken } from "../common/auth";
 import sanitizeHtml from "../js/utils/sanitizeHtml";
-import { bellState } from "../recoil/state";
+import { bellBedgeState, bellState } from "../recoil/state";
 
 const BellPage = (props) => {
   const [bells, handleBells] = useRecoilState(bellState);
+  const handleBellBadges = useSetRecoilState(bellBedgeState);
 
   const deleteBells = async () => {
     handleBells([]);
@@ -37,6 +38,10 @@ const BellPage = (props) => {
       },
     });
   };
+
+  useEffect(() => {
+    handleBellBadges([]);
+  });
 
   const arrBells = [...bells];
   arrBells.reverse();
@@ -57,7 +62,6 @@ const BellPage = (props) => {
       <List className="overflow-scroll h-screen">
         {arrBells.length > 0 &&
           arrBells.map((bell, idx) => {
-            console.log(bell);
             return bell.read ? (
               <ListItem
                 key={idx}
@@ -73,9 +77,11 @@ const BellPage = (props) => {
                 title={bell.text}
                 header={bell.createdAt}
                 style={{
-                  backgroundColor: "#e63946",
+                  backgroundColor: "#02111b",
                 }}
-              />
+              >
+                <div className="bg-red-500 w-3 h-3 rounded-full"></div>
+              </ListItem>
             );
           })}
       </List>

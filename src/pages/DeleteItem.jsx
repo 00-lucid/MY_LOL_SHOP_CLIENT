@@ -106,7 +106,6 @@ const DeleteItemPage = () => {
                         background: "#e63946",
                       }}
                       onClick={() => {
-                        console.log(item.id);
                         deleteItem(item.id);
                         handleItems((old) =>
                           old.filter((el) => el.id !== item.id)

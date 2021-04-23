@@ -117,6 +117,7 @@ const SearchPage = (props) => {
         <List className="flex flex-col overflow-scroll h-40 mt-0 p-0">
           {keywordRate.map((keyword, idx) => (
             <ListItem
+              key={keyword.id}
               header={`${idx + 1} 등`}
               title={keyword.keyword}
               style={{

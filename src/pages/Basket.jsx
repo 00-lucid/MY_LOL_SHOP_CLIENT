@@ -62,6 +62,7 @@ const BasketPage = () => {
       return;
     }
 
+    // 지금 비회원 상태에서 장바구니를 사용하게 되면 해당 아이탬을 로그인한 상태에서 구매했을 때 userId가 없기 때문에 주문내역에서 가져오지 못하는에러
     const { data } = await axios.post(
       `${process.env.API_URL}/order`,
       {
@@ -79,8 +80,6 @@ const BasketPage = () => {
       return;
     }
 
-    // await f7.dialog.preloader("구매를 진행중입니다...", 3000);
-
     handleItems([]);
 
     helper.saveLineItem([]);
@@ -90,27 +89,6 @@ const BasketPage = () => {
     setTimeout(() => handleAlarms((old) => [...old].slice(1)), 1000);
 
     if (getToken().token) {
-      // await axios.post(
-      //   `${process.env.API_URL}/add-bell`,
-      //   {
-      //     text: "구매해주셔서 감사합니다",
-      //   },
-      //   {
-      //     headers: {
-      //       authorization: `Bearer ${getToken().token}`,
-      //     },
-      //   }
-      // );
-
-      // handleBellBadges((old) => [...old, { id: old.length + 1 }]);
-
-      // handleBells((old) => [
-      //   ...old,
-      //   { title: data.text, createdAt: data.createdAt },
-      // ]);
-
-      // handleIsAction((old) => !old);
-
       helper.postBell(
         getToken().token,
         `${items[0].name} 포함 ${items.length}개의 상품을 구매 하셨습니다`,
@@ -120,23 +98,6 @@ const BasketPage = () => {
       );
     }
   };
-
-  // const requestLineItem = async () => {
-  //   // userId가 일치하고, orderId가 null인 라인 아이탬을 가져옵니다.
-  //   // 왜냐하면 회원인 유저의 장바구니 아이탬은 db에 저장되기 때문입니다
-  //   const { data } = await axios.get(`${process.env.API_URL}/get-line-item`, {
-  //     headers: {
-  //       authorization: `Bearer ${getToken().token}`,
-  //     },
-  //   });
-  //   console.log(data);
-  // };
-
-  // useEffect(() => {
-  //   // 안됨 왜??
-  //   console.log("change");
-  //   helper.saveLineItem(items);
-  // }, [items]);
 
   return (
     <Page name="basket p-0">
@@ -198,10 +159,10 @@ const BasketPage = () => {
             style={{
               bottom: "60px",
               width: "335px",
-              borderWidth: "1px",
+              // borderWidth: "1px",
               borderColor: "#C79A3A",
               color: "#060a0f",
-              backgroundColor: "#C79A3A",
+              backgroundColor: "#f3ead7",
             }}
           >
             {`${total} RP`}
@@ -213,10 +174,10 @@ const BasketPage = () => {
             style={{
               bottom: "60px",
               width: "335px",
-              borderWidth: "1px",
+              // borderWidth: "1px",
               borderColor: "#C79A3A",
               color: "#060a0f",
-              backgroundColor: "#C79A3A",
+              backgroundColor: "#f3ead7",
             }}
             onClick={buyBasket}
           >

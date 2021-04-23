@@ -56,35 +56,6 @@ const AdminPage = () => {
     <>
       <Page name="write">
         <Navbar title="관리자" />
-        {/* <Fab position="right-bottom" slot="fixed" color="red">
-          <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>
-          <Icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></Icon>
-          <FabButtons position="top">
-            <FabButton label="상품 제거하기">
-              <a href="/admin/delete-item">
-                <Icon ios="f7:xmark_square" aurora="f7:xmark_square"></Icon>
-              </a>
-            </FabButton>
-            <FabButton label="상품 등록하기">
-              <a href="/admin/create-item">
-                <Icon ios="f7:cube" aurora="f7:cube"></Icon>
-              </a>
-            </FabButton>
-          </FabButtons>
-        </Fab> */}
-        {/* <Block strong className="flex flex-col items-center justify-center m-8" style={{
-                color: "#F3EAD7",
-            }}>
-                <p className="text-lg">총 수익</p>
-                <p className="font-black text-green-500 text-2xl">{statistic.statisticTotal} G</p> 
-                <p className="text-lg">최고 평점</p>
-                <p className="font-black text-green-500 text-2xl flex flex-row items-center">
-                    <img src="https://image.flaticon.com/icons/png/128/1828/1828884.png" className="w-4 h-4"/>
-                    {statistic.statisticRate}
-                </p> 
-                <p className="text-lg">최다 판매</p>
-                <p className="font-black text-green-500 text-2xl">{statistic.statisticSale} 번</p> 
-            </Block> */}
         <section className="flex flex-row">
           <Block
             strong
@@ -126,10 +97,10 @@ const AdminPage = () => {
             bottom: "200px",
             left: "16.5px",
             width: "335px",
-            // borderWidth: "1px",
-            // borderColor: "#C79A3A",
+            borderWidth: "1px",
+            borderColor: "#C79A3A",
             // color: "#F3EAD7",
-            // backgroundColor: "#060a0f",
+            backgroundColor: "#060a0f",
           }}
         >
           회원 관리
@@ -141,25 +112,25 @@ const AdminPage = () => {
             bottom: "130px",
             left: "16.5px",
             width: "335px",
-            // borderWidth: "1px",
-            // borderColor: "#C79A3A",
+            borderWidth: "1px",
+            borderColor: "#C79A3A",
             // color: "#F3EAD7",
-            // backgroundColor: "#060a0f",
+            backgroundColor: "#060a0f",
           }}
         >
           상품 삭제
         </a>
         <a
           href="/admin/create-item"
-          className="fixed h-16 z-50 text-lg font-semibold flex justify-center items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="fixed h-16 z-50 text-lg font-semibold flex justify-center items-center text-white font-bold py-2 px-4 rounded"
           style={{
             bottom: "60px",
             width: "335px",
             left: "16.5px",
             // borderWidth: "1px",
-            // borderColor: "#C79A3A",
-            // color: "#060a0f",
-            // backgroundColor: "#C79A3A",
+            // borderColor: "#c79a3a",
+            color: "#060a0f",
+            backgroundColor: "#f3ead7",
           }}
         >
           상품 추가

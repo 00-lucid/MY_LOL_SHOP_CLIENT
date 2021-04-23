@@ -88,7 +88,6 @@ const CreateItemPage = () => {
         // 파일 base64 상태 업데이트
         setImgBase64(base64.toString());
         // url
-        console.log(imgBase64);
       }
     };
     if (event.target.files[0]) {
@@ -97,7 +96,6 @@ const CreateItemPage = () => {
       // 파일 상태 업데이트
       setImgFile(event.target.files[0]);
       // file obj
-      console.log(imgFile);
     }
   };
 
@@ -230,9 +228,7 @@ const CreateItemPage = () => {
                           className="flex flex-row w-20"
                           value={`${tag.tag}`}
                           onChange={(e) => {
-                            console.log(e.target.value);
                             handleSelectTag((old) => {
-                              console.log(old);
                               if (old.includes(e.target.value)) {
                                 const index = old.indexOf(e.target.value);
                                 return [

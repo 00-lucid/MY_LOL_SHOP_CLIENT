@@ -7,6 +7,7 @@ import {
   ListInput,
   Button,
   Checkbox,
+  Link,
 } from "framework7-react";
 import { login } from "@/common/api";
 import { toast, sleep } from "../../../js/utils.js";
@@ -16,7 +17,7 @@ import axios from "axios";
 import { getToken, saveToken } from "../../../common/auth";
 import helper from "../../modules/helper.js";
 import { useSetRecoilState } from "recoil";
-import { basketState } from "../../../recoil/state.js";
+import { basketState, userInfoState } from "../../../recoil/state.js";
 import { useCookies } from "react-cookie";
 
 const SignInSchema = Yup.object().shape({
@@ -29,7 +30,16 @@ const SignInSchema = Yup.object().shape({
 
 const SessionNewPage = () => {
   const handleItems = useSetRecoilState(basketState);
+  const handleUserInfo = useSetRecoilState(userInfoState);
+  const requestUserInfo = async () => {
+    const { data } = await axios.get(`${process.env.API_URL}/user-info`, {
+      headers: {
+        authorization: `Bearer ${getToken().token}`,
+      },
+    });
 
+    handleUserInfo(data);
+  };
   // const [email, handleEmail] = useState("");
 
   // auto setting 정보는 loacalstorage에 저장되어야 함
@@ -84,7 +94,6 @@ const SessionNewPage = () => {
         onSubmit={async (values) => {
           // 쿠키 값이 존재하면 쿠키 값으로 email state를 변경
 
-          console.log("쿠키 먹는중...");
           if (isAutoLogin) {
             // 자동로그인
             setCookie("rememberEmail", values.email, { maxAge: 2000 });
@@ -112,7 +121,7 @@ const SessionNewPage = () => {
           // handleAutoId 정보와 handleAutoLogin 정보를 저장해 줘야 함
           localStorage.setItem("autoId", `${isAutoId}`);
           localStorage.setItem("autoLogin", `${isAutoLogin}`);
-
+          requestUserInfo();
           f7.dialog.preloader("정보를 확인중입니다...");
           setTimeout(() => {
             location.replace("/");
@@ -217,6 +226,10 @@ const SessionNewPage = () => {
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 disabled={isSubmitting || !isValid}
                 type="submit"
+                style={{
+                  color: "black",
+                  backgroundColor: "#f3ead7",
+                }}
               >
                 로그인
               </button>
@@ -224,6 +237,21 @@ const SessionNewPage = () => {
           </form>
         )}
       </Formik>
+      <a
+        href="/users/sign_up"
+        className="fixed h-16 z-50 text-lg font-semibold flex justify-center items-center bg-blue-500 text-white font-bold py-2 px-4 rounded"
+        style={{
+          bottom: "60px",
+          width: "335px",
+          left: "16.5px",
+          // borderWidth: "1px",
+          // borderColor: "#c79a3a",
+          // color: "#060a0f",
+          // backgroundColor: "#f3ead7",
+        }}
+      >
+        회원가입
+      </a>
     </Page>
   );
 };
