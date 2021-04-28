@@ -60,7 +60,14 @@ const PriceBox = ({ curItemInfo }) => {
             src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
             className="w-5 h-5 m-0.5"
           ></img>
-          <p className="text-yellow-500 font-bold">{curItemInfo.price}</p>
+          <p
+            className="font-bold"
+            style={{
+              color: "#F3EAD7",
+            }}
+          >
+            {curItemInfo.price}
+          </p>
         </section>
       ) : (
         <section className="flex flex-row m-0.5 text-3xl items-center">
@@ -74,7 +81,12 @@ const PriceBox = ({ curItemInfo }) => {
           >
             <del>{curItemInfo.price}</del>
           </p>
-          <p className="text-yellow-500 font-bold">
+          <p
+            className="font-bold"
+            style={{
+              color: "#F3EAD7",
+            }}
+          >
             {curItemInfo.price - curItemInfo.price * (curItemInfo.sale * 0.01)}
           </p>
         </section>

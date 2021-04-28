@@ -114,10 +114,12 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
           className="items-stretch flex-initial flex-none w-44 h-44 border m-1"
           style={{
             backgroundImage: "url(" + item.img + ")",
+            borderRadius: "0.2rem",
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             color: "#F3EAD7",
+            borderWidth: "1px",
             borderColor: "#C79A3A",
           }}
           key={item.id}
@@ -145,7 +147,14 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
             src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
             className="w-5 h-5 m-0.5"
           ></img>
-          <p className="text-yellow-500  font-bold">{item.price}</p>
+          <p
+            className="font-bold"
+            style={{
+              color: "#F3EAD7",
+            }}
+          >
+            {item.price}
+          </p>
         </section>
       ) : (
         // 세일일 때는 item.sale을 이용해서 discount 값을 매겨야 한다,
@@ -155,12 +164,19 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
             className="w-5 h-5 m-0.5"
           ></img>
           <p
-            className="text-yellow-500  font-bold mr-2 opacity-30"
-            style={{ color: "#bbbbbb" }}
+            className="font-bold mr-2 opacity-30"
+            style={{
+              color: "#F3EAD7",
+            }}
           >
             <del>{item.price}</del>
           </p>
-          <p className="text-yellow-500  font-bold">
+          <p
+            className="font-bold"
+            style={{
+              color: "#F3EAD7",
+            }}
+          >
             {item.price - item.price * (Number(item.sale) * 0.01)}
           </p>
         </section>
@@ -171,7 +187,7 @@ const MyCard = ({ idx, img, name, itemId, item }) => {
           .filter((tag) => tag.itemId === item.id)
           .map((tag) => {
             return (
-              <Badge key={tag.id} className="mr-1">
+              <Badge key={tag.id} className="mr-1 bg-gray-500 text-white">
                 {tag.tag}
               </Badge>
             );

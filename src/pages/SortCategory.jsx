@@ -36,7 +36,6 @@ import {
   selectContactsState,
   tagState,
 } from "../recoil/state";
-import { getToken } from "../common/auth";
 import axios from "axios";
 import Grid from "../components/Grid";
 import NotGrid from "../components/NotGrid";

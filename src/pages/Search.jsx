@@ -139,7 +139,6 @@ const SearchPage = (props) => {
                 title={item.name}
                 href={`/item-info/${item.id}`}
                 onClick={() => {
-                  requestCurItemInfo(item.id);
                   requestSearchKeyword();
                 }}
               ></ListItem>

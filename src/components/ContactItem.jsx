@@ -100,52 +100,12 @@ const ContactItem = ({ contact, select, idx }) => {
                   src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
                   className="w-5 h-5"
                 ></img>
-                <p className="text-yellow-500  font-black">
-                  {contact.lineTotal}
-                </p>
-              </section>
-              <p
-                className="text-xs"
-                style={{
-                  color: "gray",
-                }}
-              >{`옵션: ${contact.buyOption} 수량: ${contact.buyCount}개`}</p>
-              <p className="text-xs text-gray-500">{contact.createdAt}</p>
-            </section>
-          </ListItem>
-        </section>
-      )}
-      {!select && (
-        <section
-          key={idx}
-          className="flex flex-col justify-center p-3"
-          style={{
-            backgroundColor: "#02111b",
-          }}
-        >
-          <img src={contact.img} className="w-auto"></img>
-          <ListItem
-            key={contact.id}
-            // header={contact.name}
-            // footer={`옵션: ${contact.optionBox} 수량: ${contact.countBox}개`}
-            checkbox
-            className="w-full items-center justify-center"
-            style={{
-              color: "#F3EAD7",
-              backgroundColor: "#02111b",
-              borderBottomWidth: "1px",
-              borderColor: "#C79A3A",
-            }}
-            onClick={() => addSelect(contact)}
-          >
-            <section className="flex flex-col w-full">
-              <p className="font-semibold">{contact.name}</p>
-              <section className="flex flex-row absolute right-7 items-center">
-                <img
-                  src="https://cdn.gamermarkt.com/files/images/lol/other/rp_logo.png"
-                  className="w-5 h-5"
-                ></img>
-                <p className="text-yellow-500  font-black">
+                <p
+                  className="font-semibold"
+                  style={{
+                    color: "#F3EAD7",
+                  }}
+                >
                   {contact.lineTotal}
                 </p>
               </section>

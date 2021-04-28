@@ -130,14 +130,22 @@ const ItemInfo = ({ id }) => {
             ? 0
             : Number(getSelectValue()[0].split(" ")[1]))) *
         Number(arrVal[1]);
-      await axios.post(`${process.env.API_URL}/add-line-item`, {
-        name: item.name,
-        img: item.img,
-        lineTotal: subTotal,
-        buyOption: arrVal[0],
-        buyCount: arrVal[1],
-        itemId: item.id,
-      });
+      await axios.post(
+        `${process.env.API_URL}/add-line-item`,
+        {
+          name: item.name,
+          img: item.img,
+          lineTotal: subTotal,
+          buyOption: arrVal[0],
+          buyCount: arrVal[1],
+          itemId: item.id,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${getToken().token}`,
+          },
+        }
+      );
       if (items && items.length > 0) {
         handleItems((oldItems) => [
           ...oldItems,
@@ -315,18 +323,18 @@ const ItemInfo = ({ id }) => {
 
             <section className="bg-section fixed h-16 z-50 ">
               <button
-                className="fixed h-16 z-50 text-lg font-semibold mb-2"
-                onClick={() => {
-                  addItem(info);
-                }}
+                className="fixed h-16 z-50 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 style={{
-                  bottom: "84px",
-                  left: "16.5px",
+                  bottom: "90px",
                   width: "335px",
+                  left: "16.5px",
+                  backgroundColor: "#011019",
+                  color: "#ffffff",
                   borderWidth: "1px",
                   borderColor: "#C79A3A",
-                  color: "#F3EAD7",
-                  backgroundColor: "#060a0f",
+                }}
+                onClick={() => {
+                  addItem(info);
                 }}
               >
                 장바구니
@@ -334,16 +342,13 @@ const ItemInfo = ({ id }) => {
 
               {getToken().token && (
                 <button
-                  className="fixed h-16 z-50 text-lg font-semibold"
+                  className="fixed h-16 z-50 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                   onClick={() => buyItem(info)}
                   style={{
                     bottom: "20px",
                     width: "335px",
                     left: "16.5px",
-                    // borderWidth: "1px",
-                    borderColor: "#C79A3A",
-                    color: "#060a0f",
-                    backgroundColor: "#f3ead7",
+                    backgroundColor: "#C79A3A",
                   }}
                 >
                   바로구매
@@ -352,17 +357,14 @@ const ItemInfo = ({ id }) => {
 
               {!getToken().token && (
                 <Link
-                  className="fixed h-16 z-50 text-lg font-semibold"
+                  className="fixed h-16 z-50 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                   href="/users/sign_in"
                   onClick={buyItem}
                   style={{
                     bottom: "20px",
                     width: "335px",
                     left: "16.5px",
-                    // borderWidth: "1px",
-                    borderColor: "#C79A3A",
-                    color: "#060a0f",
-                    backgroundColor: "#f3ead7",
+                    backgroundColor: "#C79A3A",
                   }}
                 >
                   바로구매

@@ -58,10 +58,10 @@ const ContactsPage = () => {
       <List
         className=""
         style={{
-          backgroundColor: "#02111b",
+          backgroundColor: "#5383E8",
         }}
       >
-        <ul className="">
+        <ul>
           {contacts.length > 0 && isContact && !isPopWrite
             ? contacts.map((contact, idx) => {
                 return (
@@ -96,49 +96,6 @@ const ContactsPage = () => {
           />
         ) : null}
       </List>
-      {!isPopWrite ? (
-        <Fab
-          position="right-bottom"
-          slot="fixed"
-          color="white"
-          onClick={() => {
-            handleSelectContacts(() => []);
-            handleIsContact((old) => !old);
-          }}
-        >
-          <Icon
-            ios="f7:plus"
-            aurora="f7:plus"
-            md="material:add"
-            color="black"
-          ></Icon>
-          <Icon
-            ios="f7:xmark"
-            aurora="f7:xmark"
-            md="material:close"
-            color="black"
-          ></Icon>
-          <FabButtons position="top">
-            <button
-              onClick={() => {
-                if (selectContacts.length) {
-                  handleIsPopWrite((old) => !old);
-                } else {
-                  helper.showToastCenter("1개 이상 선택하세요");
-                }
-              }}
-            >
-              <FabButton label="리뷰하기">
-                <Icon
-                  ios="f7:bubble_right"
-                  aurora="f7:bubble_right"
-                  color="black"
-                ></Icon>
-              </FabButton>
-            </button>
-          </FabButtons>
-        </Fab>
-      ) : null}
     </Page>
   );
 };

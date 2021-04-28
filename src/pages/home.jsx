@@ -220,7 +220,7 @@ const HomePage = () => {
         </SwiperSlide>
       </Swiper>
 
-      {/* {카테고리별 상품 보기 진입 장소} */}
+      {/* * {카테고리별 상품 보기 진입 장소} */}
       <Block>
         <ul
           className="flex flex-row w-full"
@@ -228,7 +228,6 @@ const HomePage = () => {
             color: "#F3EAD7",
           }}
         >
-          // TODO 카테고리 별 상품으로 들어가는 기능을 하는 컴포넌트들
           <CategoryBox propCategory="세트" />
           <CategoryBox propCategory="스킨" />
           <CategoryBox propCategory="챔피언" />

@@ -36,12 +36,6 @@ import "../css/custom.css";
 import axios from "axios";
 import { getToken } from "../common/auth";
 import { v4 as uuid4 } from "uuid";
-// custom component
-// TOSS API BASE URL
-// const TOSS = "https://pay.toss.im/api/v2/"
-// const clientKey = 'test_ck_OEP59LybZ8Bd6916DAQV6GYo7pRe';
-// const secretKey = 'test_sk_5GePWvyJnrKbdKNP1ZeVgLzN97Eo';
-// var tossPayments = TossPayments(clientKey);
 
 const CashPage = () => {
   const [rpPrice, handleRpPrice] = useState(0);

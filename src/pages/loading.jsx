@@ -16,14 +16,15 @@ import { getToken } from "../common/auth";
 import sanitizeHtml from "../js/utils/sanitizeHtml";
 
 const LoadingPage = () => {
+  const token = getToken().token;
   useEffect(async () => {
     const query = location.search.split("&");
-    const { data } = await axios.post(
+    await axios.post(
       `${process.env.API_URL}/success`,
       { query: query },
       {
         headers: {
-          authorization: `Bearer ${getToken().token}`,
+          authorization: `Bearer ${token}`,
         },
       }
     );
