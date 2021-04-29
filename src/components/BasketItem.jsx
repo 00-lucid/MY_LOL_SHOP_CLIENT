@@ -111,17 +111,6 @@ const BasketItem = ({ item, subTotal }) => {
           <section className="flex flex-col w-full">
             <section className="flex flex-row items-center">
               <p className="font-semibold">{item.name}</p>
-              {/* {item.sale && (
-                <div
-                  className="w-7 h-7 m-2 text-xs rounded-full bg-red-500 flex items-center justify-center"
-                  id="discount"
-                  style={{
-                    color: "#F3EAD7",
-                  }}
-                >
-                  -<p className="text-sm font-bold">{item.sale}</p>%
-                </div>
-              )} */}
             </section>
             <section className="flex flex-row absolute right-7 items-center">
               <img

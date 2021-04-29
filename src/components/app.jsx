@@ -82,14 +82,20 @@ const MyApp = ({ socket }) => {
   };
 
   useEffect(() => {
-    if (!loggedIn) {
-      autoLogin();
-    }
-    const data = helper.getLineItem();
-    handleItems(data);
+    // 오류가 나면 invalid token이기 때문에 로그인 유도
+    try {
+      if (!loggedIn) {
+        autoLogin();
+      } else {
+        requestUserInfo();
+      }
 
-    if (loggedIn) {
-      requestUserInfo();
+      const data = helper.getLineItem();
+
+      handleItems(data);
+    } catch (error) {
+      destroyToken();
+      location.replace("/");
     }
   }, []);
 

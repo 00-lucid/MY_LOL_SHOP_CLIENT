@@ -16,6 +16,7 @@ import {
   Button,
   Block,
   Gauge,
+  ListInput,
 } from "framework7-react";
 // 프레임워크7이 web-app을 mobile-app으로 변환 가능한 이유는 내장된 component들을 사용하기 때문이다.
 
@@ -55,6 +56,7 @@ import {
 import axios from "axios";
 
 const ContactItem = ({ contact, select, idx }) => {
+  const [onReview, handleOnReview] = useState(false);
   const [selectContacts, handleSelectContacts] = useRecoilState(
     selectContactsState
   );
@@ -81,6 +83,30 @@ const ContactItem = ({ contact, select, idx }) => {
           }}
         >
           <img src={contact.img} className="w-auto"></img>
+          {/* {컴포넌트화} */}
+          {onReview && (
+            <div
+              className="absolute w-full flex flex-col item-center p-5"
+              style={{
+                height: "290px",
+                backgroundColor: "rgba(0, 0, 0, 0.75)",
+              }}
+            >
+              <section className="mt-7">
+                <section className="flex flex-row justify-center">
+                  <Icon aurora="f7:star" ios="f7:star" />
+                  <Icon aurora="f7:star" ios="f7:star" />
+                  <Icon aurora="f7:star" ios="f7:star" />
+                  <Icon aurora="f7:star" ios="f7:star" />
+                  <Icon aurora="f7:star" ios="f7:star" />
+                </section>
+                <ListInput
+                  type="text"
+                  className="bg-gray-400 w-full mt-6 rounded-md"
+                ></ListInput>
+              </section>
+            </div>
+          )}
           <ListItem
             key={contact.id}
             // header={contact.name}
@@ -117,6 +143,33 @@ const ContactItem = ({ contact, select, idx }) => {
               >{`옵션: ${contact.buyOption} 수량: ${contact.buyCount}개`}</p>
               <p className="text-xs text-gray-500">{contact.createdAt}</p>
             </section>
+
+            {onReview && (
+              <Button className="bottom-16" style={{ color: "#e63946" }}>
+                <Icon ios="f7:checkmark_alt" aurora="f7:checkmark_alt"></Icon>
+              </Button>
+            )}
+
+            {onReview ? (
+              <Button
+                className="bottom-16"
+                style={{ color: "#e63946" }}
+                onClick={() => handleOnReview((old) => !old)}
+              >
+                <Icon ios="f7:multiply" aurora="f7:multiply"></Icon>
+              </Button>
+            ) : (
+              <Button
+                className="bottom-16"
+                style={{ color: "#e63946" }}
+                onClick={() => handleOnReview((old) => !old)}
+              >
+                <Icon
+                  ios="f7:chat_bubble_text_fill"
+                  aurora="f7:chat_bubble_text_fill"
+                ></Icon>
+              </Button>
+            )}
           </ListItem>
         </section>
       )}
