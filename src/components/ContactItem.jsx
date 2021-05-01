@@ -54,24 +54,28 @@ import {
   userInfoState,
 } from "../recoil/state";
 import axios from "axios";
+import ReviewBox from "./ReviewBox";
 
 const ContactItem = ({ contact, select, idx }) => {
+  const [text, handleText] = useState("");
   const [onReview, handleOnReview] = useState(false);
-  const [selectContacts, handleSelectContacts] = useRecoilState(
-    selectContactsState
-  );
 
-  const addSelect = (contact) => {
-    handleSelectContacts((old) => {
-      const checked = old.includes(contact);
-      if (!checked) {
-        return [...old, contact];
-      } else {
-        return [...old.slice(0, checked), ...old.slice(checked + 1)];
+  const submit = async () => {
+    const { data } = await axios.post(
+      `${process.env.API_URL}/add-review`,
+      {
+        rate: 1,
+        text: text,
+      },
+      {
+        headers: {
+          authorization: getToken().token,
+        },
       }
-    });
-  };
+    );
 
+    console.log(data);
+  };
   return (
     <>
       {select && (
@@ -83,30 +87,7 @@ const ContactItem = ({ contact, select, idx }) => {
           }}
         >
           <img src={contact.img} className="w-auto"></img>
-          {/* {컴포넌트화} */}
-          {onReview && (
-            <div
-              className="absolute w-full flex flex-col item-center p-5"
-              style={{
-                height: "290px",
-                backgroundColor: "rgba(0, 0, 0, 0.75)",
-              }}
-            >
-              <section className="mt-7">
-                <section className="flex flex-row justify-center">
-                  <Icon aurora="f7:star" ios="f7:star" />
-                  <Icon aurora="f7:star" ios="f7:star" />
-                  <Icon aurora="f7:star" ios="f7:star" />
-                  <Icon aurora="f7:star" ios="f7:star" />
-                  <Icon aurora="f7:star" ios="f7:star" />
-                </section>
-                <ListInput
-                  type="text"
-                  className="bg-gray-400 w-full mt-6 rounded-md"
-                ></ListInput>
-              </section>
-            </div>
-          )}
+          {onReview && <ReviewBox handleText={handleText} />}
           <ListItem
             key={contact.id}
             // header={contact.name}
@@ -144,20 +125,23 @@ const ContactItem = ({ contact, select, idx }) => {
               <p className="text-xs text-gray-500">{contact.createdAt}</p>
             </section>
 
-            {onReview && (
-              <Button className="bottom-16" style={{ color: "#e63946" }}>
-                <Icon ios="f7:checkmark_alt" aurora="f7:checkmark_alt"></Icon>
-              </Button>
-            )}
-
             {onReview ? (
-              <Button
-                className="bottom-16"
-                style={{ color: "#e63946" }}
-                onClick={() => handleOnReview((old) => !old)}
-              >
-                <Icon ios="f7:multiply" aurora="f7:multiply"></Icon>
-              </Button>
+              <>
+                <Button
+                  className="bottom-16"
+                  style={{ color: "#e63946" }}
+                  onClick={submit}
+                >
+                  <Icon ios="f7:checkmark_alt" aurora="f7:checkmark_alt"></Icon>
+                </Button>
+                <Button
+                  className="bottom-16"
+                  style={{ color: "#e63946" }}
+                  onClick={() => handleOnReview((old) => !old)}
+                >
+                  <Icon ios="f7:multiply" aurora="f7:multiply"></Icon>
+                </Button>
+              </>
             ) : (
               <Button
                 className="bottom-16"

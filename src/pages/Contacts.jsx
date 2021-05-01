@@ -86,15 +86,6 @@ const ContactsPage = () => {
               })
             : null}
         </ul>
-
-        {isPopWrite && selectContacts.length > 0 ? (
-          // TODO 리뷰 작성 페이지에서 랜더링할 컴포넌트
-          <AddReview
-            reviewGauge={reviewGauge}
-            handleReviewGauge={handleReviewGauge}
-            handleText={handleText}
-          />
-        ) : null}
       </List>
     </Page>
   );
