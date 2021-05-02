@@ -55,6 +55,7 @@ import {
 } from "../recoil/state";
 import axios from "axios";
 import ReviewBox from "./ReviewBox";
+import helper from "../pages/modules/helper";
 
 const ContactItem = ({ contact, select, idx }) => {
   const [text, handleText] = useState("");
@@ -66,15 +67,24 @@ const ContactItem = ({ contact, select, idx }) => {
       {
         rate: 1,
         text: text,
+        contact: contact,
       },
       {
         headers: {
-          authorization: getToken().token,
+          authorization: `Bearer ${getToken().token}`,
         },
       }
     );
 
-    console.log(data);
+    if (data.err) {
+      console.log(data.err);
+      // helper.showToastCenter("다시 로그인해 주세요");
+    } else {
+      // reset local state && success toast to user
+      handleText("");
+      handleOnReview(false);
+      helper.showToastCenter("리뷰가 등록되었습니다!");
+    }
   };
   return (
     <>
@@ -143,16 +153,18 @@ const ContactItem = ({ contact, select, idx }) => {
                 </Button>
               </>
             ) : (
-              <Button
-                className="bottom-16"
-                style={{ color: "#e63946" }}
-                onClick={() => handleOnReview((old) => !old)}
-              >
-                <Icon
-                  ios="f7:chat_bubble_text_fill"
-                  aurora="f7:chat_bubble_text_fill"
-                ></Icon>
-              </Button>
+              !contact.reviewed && (
+                <Button
+                  className="bottom-16"
+                  style={{ color: "#e63946" }}
+                  onClick={() => handleOnReview((old) => !old)}
+                >
+                  <Icon
+                    ios="f7:chat_bubble_text_fill"
+                    aurora="f7:chat_bubble_text_fill"
+                  ></Icon>
+                </Button>
+              )
             )}
           </ListItem>
         </section>

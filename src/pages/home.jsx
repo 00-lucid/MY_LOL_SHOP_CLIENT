@@ -105,10 +105,11 @@ const HomePage = () => {
       const { data } = await axios.get(`${process.env.API_URL}/get-bell`, {
         headers: { authorization: `Bearer ${getToken().token}` },
       });
+      if (data.length > 0) {
+        handleBells(data);
 
-      handleBells(data);
-
-      handleBellBadges(data.filter((el) => el.read === false));
+        handleBellBadges(data.filter((el) => el.read === false));
+      }
     }
   };
 

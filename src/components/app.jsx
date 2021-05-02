@@ -83,6 +83,7 @@ const MyApp = ({ socket }) => {
 
   useEffect(() => {
     // 오류가 나면 invalid token이기 때문에 로그인 유도
+
     if (!loggedIn) {
       autoLogin();
     } else {
