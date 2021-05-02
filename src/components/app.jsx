@@ -16,7 +16,7 @@ import {
   Badge,
 } from "framework7-react";
 // 프레임워크7이 web-app을 mobile-app으로 변환 가능한 이유는 내장된 component들을 사용하기 때문이다.
-
+// test
 import "lodash";
 import React, { useEffect } from "react";
 import { logout } from "../common/api";
