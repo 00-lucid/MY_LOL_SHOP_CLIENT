@@ -60,6 +60,7 @@ import helper from "../pages/modules/helper";
 const ContactItem = ({ contact, select, idx }) => {
   const [text, handleText] = useState("");
   const [onReview, handleOnReview] = useState(false);
+  const [reviewed, handleReviewed] = useState(false);
 
   const submit = async () => {
     const { data } = await axios.post(
@@ -83,9 +84,11 @@ const ContactItem = ({ contact, select, idx }) => {
       // reset local state && success toast to user
       handleText("");
       handleOnReview(false);
+      handleReviewed(true);
       helper.showToastCenter("리뷰가 등록되었습니다!");
     }
   };
+
   return (
     <>
       {select && (
@@ -153,7 +156,8 @@ const ContactItem = ({ contact, select, idx }) => {
                 </Button>
               </>
             ) : (
-              !contact.reviewed && (
+              !contact.reviewed &&
+              !reviewed && (
                 <Button
                   className="bottom-16"
                   style={{ color: "#e63946" }}

@@ -56,7 +56,6 @@ const ContactsPage = () => {
         <NavTitle title="주문내역"></NavTitle>
       </Navbar>
       <List
-        className=""
         style={{
           backgroundColor: "#5383E8",
         }}
