@@ -46,31 +46,38 @@ import {
   userInfoState,
 } from "../recoil/state";
 import axios from "axios";
-import Star from "./Star";
 
-const ReviewBox = ({ handleText }) => {
+const Star = () => {
   const [star, handleStar] = useState(0);
   return (
-    <>
-      <div
-        className="absolute w-full flex flex-col item-center p-5"
-        style={{
-          height: "290px",
-          backgroundColor: "rgba(0, 0, 0, 0.75)",
-        }}
-      >
-        <section className="mt-7">
-          <Star />
-          <ListInput
-            type="text"
-            onChange={(e) => handleText(e.target.value)}
-            className="w-full mt-6 border-b-2 border-white"
-            placeholder="예) 상품 예쁘고 귀여워요 :D"
-          ></ListInput>
-        </section>
-      </div>
-    </>
+    <section className="flex flex-row justify-center">
+      {star ? (
+        <Icon aurora="f7:star_fill" ios="f7:star" />
+      ) : (
+        <Icon aurora="f7:star" ios="f7:star" />
+      )}
+      {star ? (
+        <Icon aurora="f7:star_fill" ios="f7:star" />
+      ) : (
+        <Icon aurora="f7:star" ios="f7:star" />
+      )}
+      {star ? (
+        <Icon aurora="f7:star_fill" ios="f7:star" />
+      ) : (
+        <Icon aurora="f7:star" ios="f7:star" />
+      )}
+      {star ? (
+        <Icon aurora="f7:star_fill" ios="f7:star" />
+      ) : (
+        <Icon aurora="f7:star" ios="f7:star" />
+      )}
+      {star ? (
+        <Icon aurora="f7:star_fill" ios="f7:star" />
+      ) : (
+        <Icon aurora="f7:star" ios="f7:star" />
+      )}
+    </section>
   );
 };
 
-export default ReviewBox;
+export default Star;
