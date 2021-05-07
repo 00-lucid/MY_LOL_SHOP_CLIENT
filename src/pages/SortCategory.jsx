@@ -94,22 +94,45 @@ const SortCategoryPage = () => {
         <Block className="h-full">
           <section className="flex flex-row items-center mt-3 mb-3">
             <p className="text-lg ml-3">{category}</p>
-            <button className="w-7" onClick={() => handleIs4(false)}>
-              <Icon
-                className="ml-2"
-                size="22"
-                ios="f7:rectangle_grid_1x2"
-                aurora="f7:rectangle_grid_1x2"
-              ></Icon>
-            </button>
-            <button className="w-7" onClick={() => handleIs4(true)}>
-              <Icon
-                className="ml-2"
-                size="22"
-                ios="f7:rectangle_grid_2x2"
-                aurora="f7:rectangle_grid_2x2"
-              ></Icon>
-            </button>
+            {isGrid ? (
+              <button className="w-7" onClick={() => handleIs4(false)}>
+                <Icon
+                  className="ml-2"
+                  size="22"
+                  ios="f7:rectangle_grid_1x2"
+                  aurora="f7:rectangle_grid_1x2"
+                ></Icon>
+              </button>
+            ) : (
+              <button className="w-7" onClick={() => handleIs4(false)}>
+                <Icon
+                  className="ml-2"
+                  size="22"
+                  ios="f7:rectangle_grid_1x2_fill"
+                  aurora="f7:rectangle_grid_1x2_fill"
+                ></Icon>
+              </button>
+            )}
+
+            {isGrid ? (
+              <button className="w-7" onClick={() => handleIs4(true)}>
+                <Icon
+                  className="ml-2"
+                  size="22"
+                  ios="f7:rectangle_grid_2x2_fill"
+                  aurora="f7:rectangle_grid_2x2_fill"
+                ></Icon>
+              </button>
+            ) : (
+              <button className="w-7" onClick={() => handleIs4(true)}>
+                <Icon
+                  className="ml-2"
+                  size="22"
+                  ios="f7:rectangle_grid_2x2"
+                  aurora="f7:rectangle_grid_2x2"
+                ></Icon>
+              </button>
+            )}
           </section>
           <section className="h-full overflow-scroll">
             {!isGrid && (

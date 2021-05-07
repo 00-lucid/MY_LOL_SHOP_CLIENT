@@ -59,6 +59,7 @@ import helper from "../pages/modules/helper";
 
 const ContactItem = ({ contact, select, idx }) => {
   const [text, handleText] = useState("");
+  const [star, handleStar] = useState(0);
   const [onReview, handleOnReview] = useState(false);
   const [reviewed, handleReviewed] = useState(false);
 
@@ -66,7 +67,7 @@ const ContactItem = ({ contact, select, idx }) => {
     const { data } = await axios.post(
       `${process.env.API_URL}/add-review`,
       {
-        rate: 1,
+        rate: star,
         text: text,
         contact: contact,
       },
@@ -81,7 +82,6 @@ const ContactItem = ({ contact, select, idx }) => {
       console.log(data.err);
       // helper.showToastCenter("다시 로그인해 주세요");
     } else {
-      // reset local state && success toast to user
       handleText("");
       handleOnReview(false);
       handleReviewed(true);
@@ -100,7 +100,13 @@ const ContactItem = ({ contact, select, idx }) => {
           }}
         >
           <img src={contact.img} className="w-auto"></img>
-          {onReview && <ReviewBox handleText={handleText} />}
+          {onReview && (
+            <ReviewBox
+              star={star}
+              handleText={handleText}
+              handleStar={handleStar}
+            />
+          )}
           <ListItem
             key={contact.id}
             // header={contact.name}

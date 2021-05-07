@@ -47,34 +47,53 @@ import {
 } from "../recoil/state";
 import axios from "axios";
 
-const Star = () => {
-  const [star, handleStar] = useState(0);
+const Star = ({ star, handleStar }) => {
   return (
     <section className="flex flex-row justify-center">
-      {star ? (
-        <Icon aurora="f7:star_fill" ios="f7:star" />
+      {star > 0 ? (
+        <button className="w-8" onClick={() => handleStar(1)}>
+          <Icon aurora="f7:star_fill" ios="f7:star_fill" />
+        </button>
       ) : (
-        <Icon aurora="f7:star" ios="f7:star" />
+        <button className="w-8" onClick={() => handleStar(1)}>
+          <Icon aurora="f7:star" ios="f7:star" />
+        </button>
       )}
-      {star ? (
-        <Icon aurora="f7:star_fill" ios="f7:star" />
+      {star > 1 ? (
+        <button className="w-8" onClick={() => handleStar(2)}>
+          <Icon aurora="f7:star_fill" ios="f7:star_fill" />
+        </button>
       ) : (
-        <Icon aurora="f7:star" ios="f7:star" />
+        <button className="w-8" onClick={() => handleStar(2)}>
+          <Icon aurora="f7:star" ios="f7:star" />
+        </button>
       )}
-      {star ? (
-        <Icon aurora="f7:star_fill" ios="f7:star" />
+      {star > 2 ? (
+        <button className="w-8" onClick={() => handleStar(3)}>
+          <Icon aurora="f7:star_fill" ios="f7:star_fill" />
+        </button>
       ) : (
-        <Icon aurora="f7:star" ios="f7:star" />
+        <button className="w-8" onClick={() => handleStar(3)}>
+          <Icon aurora="f7:star" ios="f7:star" />
+        </button>
       )}
-      {star ? (
-        <Icon aurora="f7:star_fill" ios="f7:star" />
+      {star > 3 ? (
+        <button className="w-8" onClick={() => handleStar(4)}>
+          <Icon aurora="f7:star_fill" ios="f7:star_fill" />
+        </button>
       ) : (
-        <Icon aurora="f7:star" ios="f7:star" />
+        <button className="w-8" onClick={() => handleStar(4)}>
+          <Icon aurora="f7:star" ios="f7:star" />
+        </button>
       )}
-      {star ? (
-        <Icon aurora="f7:star_fill" ios="f7:star" />
+      {star > 4 ? (
+        <button className="w-8" onClick={() => handleStar(5)}>
+          <Icon aurora="f7:star_fill" ios="f7:star_fill" />
+        </button>
       ) : (
-        <Icon aurora="f7:star" ios="f7:star" />
+        <button className="w-8" onClick={() => handleStar(5)}>
+          <Icon aurora="f7:star" ios="f7:star" />
+        </button>
       )}
     </section>
   );

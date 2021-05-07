@@ -48,8 +48,7 @@ import {
 import axios from "axios";
 import Star from "./Star";
 
-const ReviewBox = ({ handleText }) => {
-  const [star, handleStar] = useState(0);
+const ReviewBox = ({ star, handleText, handleStar }) => {
   return (
     <>
       <div
@@ -60,7 +59,7 @@ const ReviewBox = ({ handleText }) => {
         }}
       >
         <section className="mt-7">
-          <Star />
+          <Star star={star} handleStar={handleStar} />
           <ListInput
             type="text"
             onChange={(e) => handleText(e.target.value)}
