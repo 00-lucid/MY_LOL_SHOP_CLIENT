@@ -1,5 +1,4 @@
 # MY_LOL_SHOP_CLIENT
-기능 요약 및 회고 - https://velog.io/@315dragon/Review.-FinalProject-with-insomnia
 
 ## 홈
 <img width="318" alt="홈" src="https://user-images.githubusercontent.com/68249818/117892630-032d5900-b2f4-11eb-8853-f31ddabee576.png">
@@ -98,3 +97,5 @@
 10. Passwordhash
 11. Axios
 12. Uuid
+
+기능 움짤 및 회고 - https://velog.io/@315dragon/Review.-FinalProject-with-insomnia
