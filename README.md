@@ -1,5 +1,6 @@
 # MY_LOL_SHOP_CLIENT
 
+# [프로젝트 이미지]
 ## 홈
 <img width="318" alt="홈" src="https://user-images.githubusercontent.com/68249818/117892630-032d5900-b2f4-11eb-8853-f31ddabee576.png">
 
@@ -52,6 +53,28 @@
 ## 상품삭제
 <img width="318" alt="상품제거" src="https://user-images.githubusercontent.com/68249818/117893332-26a4d380-b2f5-11eb-9d4b-8a0703c30ef0.png">
 
+# [프로젝트 움짤]
+
+## 상품 정렬 옵션
+![그리드](https://user-images.githubusercontent.com/68249818/117894088-910a4380-b2f6-11eb-9a76-44488f4349aa.gif)
+
+
+## 토스결제
+![토스결제](https://user-images.githubusercontent.com/68249818/117894093-94053400-b2f6-11eb-8dee-d5289f736392.gif)
+
+## 알람기능
+![알람기능](https://user-images.githubusercontent.com/68249818/117894097-97002480-b2f6-11eb-8b3f-3b0ec76db6c8.gif)
+
+## 리뷰기능
+![리뷰 기능](https://user-images.githubusercontent.com/68249818/117894106-99fb1500-b2f6-11eb-8ddb-926f52bc3be1.gif)
+
+## 검색 인기검색어 기능
+![검색 인기검색어 기능](https://user-images.githubusercontent.com/68249818/117894119-a2535000-b2f6-11eb-8cc7-889050223b80.gif)
+
+## 상품삭제
+![상품삭제](https://user-images.githubusercontent.com/68249818/117894124-a5e6d700-b2f6-11eb-920a-322b58d928b5.gif)
+
+
 ## 기능 요약 정리
 
 1. 회원가입
@@ -82,8 +105,6 @@
 26. 상품 삭제 기능
 27. 상품 삭제 페이지에서 더보기 기능
 28. 상품 추가 페이지에서 이름,가격,이미지 파일,태그,옵션 추가 기능 및 이미지 미리보기 기능 + 이미지를 서버에 저장해서 불러오는 기능은 구현X
-
-
 
 ## 주요 스택 정리
 1. Nest
